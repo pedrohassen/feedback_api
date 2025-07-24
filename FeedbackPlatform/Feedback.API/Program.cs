@@ -1,32 +1,37 @@
-using System;
-using FeedbackApp.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 using FeedbackApp.Infrastructure.Extensions;
+using FeedbackApp.Application.Extensions;
+using FeedbackApp.API.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddControllers();
 
-builder.Services.AddInfrastructure(builder.Configuration);
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+builder.Services.AddCors(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    options.AddPolicy("PermitirSwagger", policy =>
+    {
+        policy.WithOrigins(
+            "https://localhost:7235",
+            "http://localhost:5233"
+            )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
+builder.Services
+    .AddInfrastructure(builder.Configuration)
+    .AddApplication()
+    .AddJwtAuthentication(builder.Configuration)
+    .AddSwagger();
+
+WebApplication app = builder.Build();
 
 app.UseHttpsRedirection();
-
+app.UseCors("PermitirSwagger");
+app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseSwaggerUIIfDev();
 app.MapControllers();
-
 app.Run();

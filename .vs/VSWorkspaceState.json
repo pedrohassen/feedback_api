@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\FeedbackPlatform",
+    "\\FeedbackPlatform\\Feedback.API",
+    "\\FeedbackPlatform\\Feedback.Infrastructure"
   ],
+  "SelectedNode": "\\LICENSE",
   "PreviewInSolutionExplorer": false
 }

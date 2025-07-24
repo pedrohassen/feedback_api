@@ -1,27 +1,29 @@
-﻿using System;
-using FeedbackApp.Domain.ValueObjects;
+﻿using FeedbackApp.Domain.Entities;
 
-namespace FeedbackApp.Domain.Entities
+public class Feedback
 {
-    public class Feedback
+    public int Id { get; private set; }
+    public string Texto { get; private set; }
+    public DateTime DataEnvio { get; private set; } = DateTime.UtcNow;
+    public int UsuarioId { get; private set; }
+    public Usuario Usuario { get; private set; }
+
+    protected Feedback() { }
+
+    public Feedback(string texto, int usuarioId)
     {
-        public Guid Id { get; private set; } = Guid.NewGuid();
-        public TextoFeedback Texto { get; private set; }
-        public DateTime DataEnvio { get; private set; } = DateTime.UtcNow;
+        if (string.IsNullOrWhiteSpace(texto))
+            throw new ArgumentException("Texto é obrigatório.", nameof(texto));
 
-        public Guid UsuarioId { get; private set; }
-        public Usuario Usuario { get; private set; }
+        Texto = texto;
+        UsuarioId = usuarioId;
+    }
 
-        protected Feedback() { }
+    public void AtualizarTexto(string novoTexto)
+    {
+        if (string.IsNullOrWhiteSpace(novoTexto))
+            throw new ArgumentException("Texto é obrigatório.", nameof(novoTexto));
 
-        public Feedback(TextoFeedback texto, Guid usuarioId)
-        {
-            Texto = texto ?? throw new ArgumentNullException(nameof(texto));
-
-            if (usuarioId == Guid.Empty)
-                throw new ArgumentException("O ID do usuário não pode ser vazio.", nameof(usuarioId));
-
-            UsuarioId = usuarioId;
-        }
+        Texto = novoTexto;
     }
 }

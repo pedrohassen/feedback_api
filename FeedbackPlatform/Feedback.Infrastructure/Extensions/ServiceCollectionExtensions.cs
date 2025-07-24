@@ -3,6 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FeedbackApp.Infrastructure.Data;
 using FeedbackApp.Domain.Interfaces;
+using FeedbackApp.Infrastructure.Repositories;
+using FeedbackApp.Domain.Security;
+using FeedbackApp.Infrastructure.Security;
 
 namespace FeedbackApp.Infrastructure.Extensions
 {
@@ -13,8 +16,9 @@ namespace FeedbackApp.Infrastructure.Extensions
             services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("FeedbackDatabase")));
 
-            //services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            //services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
 
             return services;
         }
