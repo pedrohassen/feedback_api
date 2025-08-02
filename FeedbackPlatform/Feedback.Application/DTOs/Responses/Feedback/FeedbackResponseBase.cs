@@ -1,6 +1,6 @@
-﻿namespace FeedbackApp.Application.Responses
+﻿namespace FeedbackApp.Application.DTOs.Responses.Feedback
 {
-    public class FeedbackResponse
+    public abstract class FeedbackResponseBase
     {
         public int Id { get; set; }
         public string Texto { get; set; } = null!;

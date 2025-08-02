@@ -1,5 +1,5 @@
-﻿using FeedbackApp.Application.Requests;
-using FeedbackApp.Application.Responses;
+﻿using FeedbackApp.Application.DTOs.Requests.Usuario;
+using FeedbackApp.Application.DTOs.Responses.Usuario;
 
 namespace FeedbackApp.Application.Interfaces
 {

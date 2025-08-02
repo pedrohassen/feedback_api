@@ -1,8 +1,9 @@
-﻿using FeedbackApp.Application.Interfaces;
-using FeedbackApp.Application.Requests;
-using FeedbackApp.Application.Responses;
+﻿using FeedbackApp.Application.DTOs.Requests.Feedback;
+using FeedbackApp.Application.DTOs.Responses.Feedback;
+using FeedbackApp.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FeedbackApp.API.Controllers
 {
@@ -19,6 +20,10 @@ namespace FeedbackApp.API.Controllers
         }
 
         [HttpPost]
+        [SwaggerOperation(
+            Summary = "Criar novo feedback.",
+            Description = "Adiciona um novo feedback à aplicação.",
+            OperationId = "CriarFeedback")]
         public async Task<IActionResult> CriarFeedback([FromBody] CriarFeedbackRequest request)
         {
             try
@@ -33,6 +38,10 @@ namespace FeedbackApp.API.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [SwaggerOperation(
+            Summary = "Obter feedback por ID.",
+            Description = "Recupera um feedback específico pelo seu ID.",
+            OperationId = "ObterFeedbackPorId")]
         public async Task<IActionResult> ObterPorId(int id)
         {
             try
@@ -48,6 +57,10 @@ namespace FeedbackApp.API.Controllers
         }
 
         [HttpGet("usuario/{usuarioId:int}")]
+        [SwaggerOperation(
+            Summary = "Obter feedbacks por usuário.",
+            Description = "Recupera todos os feedbacks associados a um usuário específico.",
+            OperationId = "ObterFeedbacksPorUsuario")]
         public async Task<IActionResult> ObterPorUsuario(int usuarioId)
         {
             try
@@ -62,6 +75,10 @@ namespace FeedbackApp.API.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(
+            Summary = "Listar todos os feedbacks.",
+            Description = "Recupera todos os feedbacks registrados na aplicação.",
+            OperationId = "ObterTodosFeedbacks")]
         public async Task<IActionResult> ObterTodos()
         {
             try
@@ -76,6 +93,10 @@ namespace FeedbackApp.API.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [SwaggerOperation(
+            Summary = "Atualizar feedback.",
+            Description = "Atualiza os detalhes de um feedback existente.",
+            OperationId = "AtualizarFeedback")]
         public async Task<IActionResult> Atualizar(int id, [FromBody] AtualizarFeedbackRequest request)
         {
 
@@ -91,6 +112,10 @@ namespace FeedbackApp.API.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [SwaggerOperation(
+            Summary = "Deletar feedback.",
+            Description = "Remove um feedback específico da aplicação.",
+            OperationId = "DeletarFeedback")]
         public async Task<IActionResult> Deletar(int id)
         {
             try

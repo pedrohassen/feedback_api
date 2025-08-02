@@ -1,5 +1,5 @@
-﻿using FeedbackApp.Application.Requests;
-using FeedbackApp.Application.Responses;
+﻿using FeedbackApp.Application.DTOs.Requests.Feedback;
+using FeedbackApp.Application.DTOs.Responses.Feedback;
 
 namespace FeedbackApp.Application.Interfaces
 {
@@ -11,6 +11,5 @@ namespace FeedbackApp.Application.Interfaces
         Task<FeedbackResponse> AdicionarAsync(CriarFeedbackRequest request);
         Task<FeedbackResponse> AtualizarAsync(int id, AtualizarFeedbackRequest request);
         Task DeletarAsync(int id);
-        Task<bool> ExisteAsync(int id);
     }
 }

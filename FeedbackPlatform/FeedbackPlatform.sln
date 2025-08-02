@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedbackApp.Tests", "FeedbackApp.Tests\FeedbackApp.Tests.csproj", "{FB5D1D1F-14E3-4A49-9BE9-CAFA818EBBEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedbackApp.CrossCutting", "FeedbackApp.CrossCutting\FeedbackApp.CrossCutting.csproj", "{83B8FE7B-A9EA-4A62-88AD-D8B454666F0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +42,14 @@ Global
 		{EA2CC4BB-5DE8-49D8-8C2E-D99837088CB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA2CC4BB-5DE8-49D8-8C2E-D99837088CB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA2CC4BB-5DE8-49D8-8C2E-D99837088CB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB5D1D1F-14E3-4A49-9BE9-CAFA818EBBEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB5D1D1F-14E3-4A49-9BE9-CAFA818EBBEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB5D1D1F-14E3-4A49-9BE9-CAFA818EBBEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB5D1D1F-14E3-4A49-9BE9-CAFA818EBBEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B8FE7B-A9EA-4A62-88AD-D8B454666F0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B8FE7B-A9EA-4A62-88AD-D8B454666F0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B8FE7B-A9EA-4A62-88AD-D8B454666F0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B8FE7B-A9EA-4A62-88AD-D8B454666F0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

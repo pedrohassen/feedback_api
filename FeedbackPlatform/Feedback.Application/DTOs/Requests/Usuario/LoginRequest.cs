@@ -1,4 +1,4 @@
-﻿namespace FeedbackApp.Application.Requests
+﻿namespace FeedbackApp.Application.DTOs.Requests.Usuario
 {
     public class LoginRequest
     {

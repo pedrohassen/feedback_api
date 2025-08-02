@@ -52,10 +52,5 @@ namespace FeedbackApp.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-
-        public async Task<bool> ExisteAsync(int id)
-        {
-            return await _context.Feedbacks.AnyAsync(f => f.Id == id);
-        }
     }
 }

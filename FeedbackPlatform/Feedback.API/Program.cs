@@ -23,6 +23,7 @@ builder.Services.AddCors(options =>
 builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddApplication()
+    .AddCustomAuthorization()
     .AddJwtAuthentication(builder.Configuration)
     .AddSwagger();
 

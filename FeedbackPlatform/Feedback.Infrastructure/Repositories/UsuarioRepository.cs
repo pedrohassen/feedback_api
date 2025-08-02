@@ -45,8 +45,5 @@ namespace FeedbackApp.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-
-        public async Task<bool> ExistePorEmailAsync(string email) =>
-            await _context.Usuarios.AnyAsync(u => u.Email == email);
     }
 }

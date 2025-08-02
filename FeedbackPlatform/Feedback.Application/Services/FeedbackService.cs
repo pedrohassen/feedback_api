@@ -1,6 +1,8 @@
-﻿using FeedbackApp.Application.Interfaces;
-using FeedbackApp.Application.Requests;
-using FeedbackApp.Application.Responses;
+﻿using FeedbackApp.Application.DTOs.Requests.Feedback;
+using FeedbackApp.Application.DTOs.Responses.Feedback;
+using FeedbackApp.Application.Interfaces;
+using FeedbackApp.Application.Mapper;
+using FeedbackApp.Application.Utils;
 using FeedbackApp.Domain.Interfaces;
 
 namespace FeedbackApp.Application.Services
@@ -8,10 +10,14 @@ namespace FeedbackApp.Application.Services
     public class FeedbackService : IFeedbackService
     {
         private readonly IFeedbackRepository _feedbackRepository;
+        private readonly IObjectConverter _mapper;
 
-        public FeedbackService(IFeedbackRepository feedbackRepository)
+        public FeedbackService(
+            IFeedbackRepository feedbackRepository,
+            IObjectConverter mapper)
         {
             _feedbackRepository = feedbackRepository;
+            _mapper = mapper;
         }
 
         public async Task<FeedbackResponse?> ObterPorIdAsync(int id)
@@ -22,7 +28,8 @@ namespace FeedbackApp.Application.Services
             Feedback? feedback = await _feedbackRepository.ObterPorIdAsync(id);
             if (feedback == null) return null;
 
-            return MapToResponse(feedback);
+            FeedbackResponse response = _mapper.Map<FeedbackResponse>(feedback);
+            return response;
         }
 
         public async Task<IEnumerable<FeedbackResponse>> ObterPorUsuarioIdAsync(int usuarioId)
@@ -31,45 +38,46 @@ namespace FeedbackApp.Application.Services
                 throw new ArgumentException("ID de usuário inválido.", nameof(usuarioId));
 
             IEnumerable<Feedback> feedbacks = await _feedbackRepository.ObterPorUsuarioIdAsync(usuarioId);
-            return feedbacks.Select(MapToResponse);
+            IEnumerable<FeedbackResponse> response = _mapper.Map<IEnumerable<FeedbackResponse>>(feedbacks);
+
+            return response;
         }
 
         public async Task<IEnumerable<FeedbackResponse>> ObterTodosAsync()
         {
             IEnumerable<Feedback> feedbacks = await _feedbackRepository.ObterTodosAsync();
-            return feedbacks.Select(MapToResponse);
+            IEnumerable<FeedbackResponse> response = _mapper.Map<IEnumerable<FeedbackResponse>>(feedbacks);
+
+            return response;
         }
 
         public async Task<FeedbackResponse> AdicionarAsync(CriarFeedbackRequest request)
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request), "Dados de criação não podem ser nulos.");
-
-            if (string.IsNullOrWhiteSpace(request.Texto))
-                throw new ArgumentException("O texto do feedback não pode ser vazio.", nameof(request));
-
-            if (request.UsuarioId <= 0)
-                throw new ArgumentException("ID de usuário inválido.", nameof(request));
+            ValidacoesFeedback.ValidarCriarFeedback(request);
 
             Feedback novoFeedback = new (request.Texto, request.UsuarioId);
+
             await _feedbackRepository.AdicionarAsync(novoFeedback);
-            return MapToResponse(novoFeedback);
+            FeedbackResponse response = _mapper.Map<FeedbackResponse>(novoFeedback);
+
+            return response;
         }
 
-        public async Task<FeedbackResponse> AtualizarAsync(int id,AtualizarFeedbackRequest request)
+        public async Task<FeedbackResponse> AtualizarAsync(int id, AtualizarFeedbackRequest request)
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request), "Dados de atualização não podem ser nulos.");
+            if (id <= 0)
+                throw new ArgumentException("ID inválido.", nameof(id));
 
-            if (string.IsNullOrWhiteSpace(request.Texto))
-                throw new ArgumentException("O texto do feedback não pode ser vazio.", nameof(request));
+            ValidacoesFeedback.ValidarAtualizarFeedback(request);
 
-            Feedback? feedbackExistente = await _feedbackRepository.ObterPorIdAsync(id) ?? throw new Exception("Feedback não encontrado.");
+            Feedback? feedbackExistente = await _feedbackRepository.ObterPorIdAsync(id)
+                ?? throw new Exception("Feedback não encontrado.");
 
             feedbackExistente.AtualizarTexto(request.Texto);
             await _feedbackRepository.AtualizarAsync(feedbackExistente);
+            FeedbackResponse response = _mapper.Map<FeedbackResponse>(feedbackExistente);
 
-            return MapToResponse(feedbackExistente);
+            return response;
         }
 
         public async Task DeletarAsync(int id)
@@ -80,25 +88,6 @@ namespace FeedbackApp.Application.Services
             _ = await _feedbackRepository.ObterPorIdAsync(id) ?? throw new Exception("Feedback não encontrado.");
 
             await _feedbackRepository.RemoverAsync(id);
-        }
-
-        public async Task<bool> ExisteAsync(int id)
-        {
-            if (id <= 0)
-                throw new ArgumentException("ID inválido.", nameof(id));
-
-            return await _feedbackRepository.ExisteAsync(id);
-        }
-
-        private FeedbackResponse MapToResponse(Feedback feedback)
-        {
-            return new FeedbackResponse
-            {
-                Id = feedback.Id,
-                Texto = feedback.Texto,
-                DataEnvio = feedback.DataEnvio,
-                UsuarioId = feedback.UsuarioId
-            };
         }
     }
 }

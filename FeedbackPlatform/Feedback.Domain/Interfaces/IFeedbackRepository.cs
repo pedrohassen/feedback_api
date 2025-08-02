@@ -10,6 +10,5 @@ namespace FeedbackApp.Domain.Interfaces
         Task AdicionarAsync(Feedback feedback);
         Task AtualizarAsync(Feedback feedback);
         Task RemoverAsync(int id);
-        Task<bool> ExisteAsync(int id);
     }
 }

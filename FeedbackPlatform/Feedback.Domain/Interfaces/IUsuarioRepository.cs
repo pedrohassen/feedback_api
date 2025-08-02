@@ -10,6 +10,5 @@ namespace FeedbackApp.Domain.Interfaces
         Task<Usuario> CriarAsync(Usuario usuario);
         Task AtualizarAsync(Usuario usuario);
         Task RemoverAsync(int id);
-        Task<bool> ExistePorEmailAsync(string email);
     }
 }
