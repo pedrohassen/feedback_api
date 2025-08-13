@@ -1,56 +1,73 @@
-﻿using FeedbackApp.Domain.Entities;
-using FeedbackApp.Domain.Interfaces;
-using FeedbackApp.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+﻿//using FeedbackApp.Application.Arguments;
+//using FeedbackApp.Application.Mapper;
+//using FeedbackApp.Domain.Entities;
+//using FeedbackApp.Domain.Interfaces;
+//using FeedbackApp.Infrastructure.Data;
+//using Microsoft.EntityFrameworkCore;
 
-namespace FeedbackApp.Infrastructure.Repositories
-{
-    public class FeedbackRepository : IFeedbackRepository
-    {
-        private readonly AppDbContext _context;
+//namespace FeedbackApp.Infrastructure.Repositories
+//{
+//    public class FeedbackRepository : IFeedbackRepository
+//    {
+//        private readonly AppDbContext _context;
+//        private readonly IObjectConverter _mapper;
 
-        public FeedbackRepository(AppDbContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
+//        public FeedbackRepository(
+//            AppDbContext context,
+//            IObjectConverter mapper)
+//        {
+//            _context = context;
+//            _mapper = mapper;
+//        }
 
-        public async Task<Feedback?> ObterPorIdAsync(int id)
-        {
-            return await _context.Feedbacks.FindAsync(id);
-        }
+//        public async Task<FeedbackArgument?> ObterPorIdAsync(int id)
+//        {
+//            Feedback? feedback = await _context.Feedbacks.FindAsync(id);
+//            if (feedback == null) return null;
 
-        public async Task<IEnumerable<Feedback>> ObterPorUsuarioIdAsync(int usuarioId)
-        {
-            return await _context.Feedbacks
-                .Where(f => f.UsuarioId == usuarioId)
-                .ToListAsync();
-        }
+//            return _mapper.Map<FeedbackArgument>(feedback);
+//        }
 
-        public async Task<IEnumerable<Feedback>> ObterTodosAsync()
-        {
-            return await _context.Feedbacks.ToListAsync();
-        }
+//        public async Task<IEnumerable<FeedbackArgument>> ObterPorUsuarioIdAsync(int usuarioId)
+//        {
+//            List<Feedback> feedbacks = await _context.Feedbacks
+//                .Where(f => f.UsuarioId == usuarioId)
+//                .ToListAsync();
 
-        public async Task AdicionarAsync(Feedback feedback)
-        {
-            await _context.Feedbacks.AddAsync(feedback);
-            await _context.SaveChangesAsync();
-        }
+//            return _mapper.Map<IEnumerable<FeedbackArgument>>(feedbacks);
+//        }
 
-        public async Task AtualizarAsync(Feedback feedback)
-        {
-            _context.Feedbacks.Update(feedback);
-            await _context.SaveChangesAsync();
-        }
+//        public async Task<IEnumerable<FeedbackArgument>> ObterTodosAsync()
+//        {
+//            List<Feedback> feedbacks = await _context.Feedbacks.ToListAsync();
 
-        public async Task RemoverAsync(int id)
-        {
-            var feedback = await ObterPorIdAsync(id);
-            if (feedback != null)
-            {
-                _context.Feedbacks.Remove(feedback);
-                await _context.SaveChangesAsync();
-            }
-        }
-    }
-}
+//            return _mapper.Map<IEnumerable<FeedbackArgument>>(feedbacks);
+//        }
+
+//        public async Task AdicionarAsync(FeedbackArgument feedback)
+//        {
+//            Feedback feedbackEntity = _mapper.Map<Feedback>(feedback);
+
+//            await _context.Feedbacks.AddAsync(feedbackEntity);
+//            await _context.SaveChangesAsync();
+//        }
+
+//        public async Task AtualizarAsync(FeedbackArgument feedback)
+//        {
+//            Feedback feedbackEntity = _mapper.Map<Feedback>(feedback);
+
+//            _context.Feedbacks.Update(feedbackEntity);
+//            await _context.SaveChangesAsync();
+//        }
+
+//        public async Task RemoverAsync(int id)
+//        {
+//            var feedback = await ObterPorIdAsync(id);
+//            if (feedback != null)
+//            {
+//                _context.Feedbacks.Remove(feedback);
+//                await _context.SaveChangesAsync();
+//            }
+//        }
+//    }
+//}

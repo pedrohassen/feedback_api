@@ -10,14 +10,14 @@ namespace FeedbackApp.Infrastructure.Data
         {
         }
 
-        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<UsuarioModel> Usuarios { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Usuario>(entity =>
+            modelBuilder.Entity<UsuarioModel>(entity =>
             {
                 entity.Property(u => u.Email)
                     .IsRequired()

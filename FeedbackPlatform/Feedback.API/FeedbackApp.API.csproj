@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Feedback.Application\FeedbackApp.Application.csproj" />
+    <ProjectReference Include="..\Feedback.Domain\FeedbackApp.Domain.csproj" />
     <ProjectReference Include="..\Feedback.Infrastructure\FeedbackApp.Infrastructure.csproj" />
     <ProjectReference Include="..\FeedbackApp.CrossCutting\FeedbackApp.CrossCutting.csproj" />
   </ItemGroup>

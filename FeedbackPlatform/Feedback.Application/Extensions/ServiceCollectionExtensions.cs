@@ -13,7 +13,7 @@ namespace FeedbackApp.Application.Extensions
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IUsuarioService, UsuarioService>();
-            services.AddScoped<IFeedbackService, FeedbackService>();
+            //services.AddScoped<IFeedbackService, FeedbackService>();
             services.AddScoped<IJwtTokenService, JwtTokenService>();
 
             MapperConfiguration mapperConfiguration = AutoMapperConfig.RegisterMappings();

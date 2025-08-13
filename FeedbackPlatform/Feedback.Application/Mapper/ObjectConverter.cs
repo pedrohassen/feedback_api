@@ -16,15 +16,9 @@ namespace FeedbackApp.Application.Mapper
             return _mapper.Map<T>(source);
         }
 
-        public TDestination Map<TSource, TDestination>(TSource source)
-        {
-            return _mapper.Map<TSource, TDestination>(source);
-        }
-
         public TDestination Map<TSource, TDestination>(TSource source, TDestination destination)
         {
             return _mapper.Map(source, destination);
         }
     }
-
 }

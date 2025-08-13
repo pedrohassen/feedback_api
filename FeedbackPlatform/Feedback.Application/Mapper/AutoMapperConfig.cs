@@ -11,12 +11,12 @@ namespace FeedbackApp.Application.Mapper
             {
                 MapperConfiguration config = new MapperConfiguration(cfg =>
                 {
-                    cfg.AddProfile(new RegistroRequestToUsuarioProfile());
-                    cfg.AddProfile(new UsuarioToUsuarioResponseProfile());
-                    cfg.AddProfile(new AtualizarUsuarioRequestToUsuarioProfile());
-                    cfg.AddProfile(new CriarFeedbackRequestToFeedbackProfile());
-                    cfg.AddProfile(new FeedbackToFeedbackResponseProfile());
-                    cfg.AddProfile(new AtualizarFeedbackRequestToFeedbackProfile());
+                    //cfg.AddProfile(new FeedbackProfiles());
+                    cfg.AddProfile(new ArgumentToModelProfile());
+                    cfg.AddProfile(new ArgumentToResponseProfile());
+                    cfg.AddProfile(new ModelToResponseProfile());
+                    cfg.AddProfile(new RequestToArgumentProfile());
+                    cfg.AddProfile(new RequestToModelProfile());
                 });
 
                 config.AssertConfigurationIsValid();
@@ -27,7 +27,7 @@ namespace FeedbackApp.Application.Mapper
             {
                 Console.WriteLine("Erro na configuração do AutoMapper:");
                 Console.WriteLine(ex.Message);
-                throw; // relança para que continue quebrando e você possa ver no debug
+                throw;
             }
         }
     }

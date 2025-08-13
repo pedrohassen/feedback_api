@@ -17,7 +17,7 @@ namespace FeedbackApp.Infrastructure.Extensions
                 options.UseNpgsql(configuration.GetConnectionString("FeedbackDatabase")));
 
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            //services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
 
             return services;

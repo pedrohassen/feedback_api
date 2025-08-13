@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Feedback.Domain\FeedbackApp.Domain.csproj" />
+	<ProjectReference Include="..\Feedback.Application\FeedbackApp.Application.csproj" />
   </ItemGroup>
 
 </Project>

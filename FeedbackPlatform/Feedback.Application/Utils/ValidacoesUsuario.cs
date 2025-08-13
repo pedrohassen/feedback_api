@@ -1,5 +1,7 @@
 ﻿using System.Net.Mail;
-using FeedbackApp.Application.DTOs.Requests.Usuario;
+using System.Text.RegularExpressions;
+using FeedbackApp.Application.Requests.Usuario;
+using FeedbackApp.CrossCutting.Exceptions;
 
 namespace FeedbackApp.Application.Utils
 {
@@ -13,7 +15,8 @@ namespace FeedbackApp.Application.Utils
             try
             {
                 MailAddress mailAddress = new (email);
-                return true;
+                string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
             }
             catch
             {
@@ -24,67 +27,67 @@ namespace FeedbackApp.Application.Utils
         public static void ValidarRegistro(RegistroRequest request)
         {
             if (request == null)
-                throw new ArgumentNullException(nameof(request), "Dados de registro não podem ser nulos.");
+                throw new BadRequestException(new[] { "Dados de registro não podem ser nulos." }, "Erro de Validação");
 
             request.Nome = request.Nome?.Trim() ?? string.Empty;
             request.Email = request.Email?.Trim() ?? string.Empty;
             request.Senha = request.Senha?.Trim() ?? string.Empty;
 
             if (string.IsNullOrWhiteSpace(request.Nome))
-                throw new ArgumentException("Nome é obrigatório.", nameof(request));
+                throw new BadRequestException(new[] { "Nome é obrigatório." }, "Erro de Validação");
 
             if (string.IsNullOrWhiteSpace(request.Email))
-                throw new ArgumentException("Email é obrigatório.", nameof(request));
+                throw new BadRequestException(new[] { "Email é obrigatório." }, "Erro de Validação");
 
             if (!ValidarEmail(request.Email))
-                throw new ArgumentException("Email inválido.", nameof(request));
+                throw new BadRequestException(new[] { "Email inválido." }, "Erro de Validação");
 
             if (string.IsNullOrWhiteSpace(request.Senha))
-                throw new ArgumentException("Senha é obrigatória.", nameof(request));
+                throw new BadRequestException(new[] { "Senha é obrigatória." }, "Erro de Validação");
         }
 
         public static void ValidarLogin(LoginRequest? request)
         {
             if (request is null)
-                throw new ArgumentNullException(nameof(request), "Dados de login não podem ser nulos.");
+                throw new BadRequestException(new[] { "Dados de login não podem ser nulos." }, "Erro de Validação");
 
             request.Email = request.Email?.Trim() ?? string.Empty;
             request.Senha = request.Senha?.Trim() ?? string.Empty;
 
             if (string.IsNullOrWhiteSpace(request.Email))
-                throw new ArgumentException("Email é obrigatório.", nameof(request));
+                throw new BadRequestException(new[] { "Email é obrigatório." }, "Erro de Validação");
 
             if (!ValidarEmail(request.Email))
-                throw new ArgumentException("Email inválido.", nameof(request));
+                throw new BadRequestException(new[] { "Email inválido." }, "Erro de Validação");
 
             if (string.IsNullOrWhiteSpace(request.Senha))
-                throw new ArgumentException("Senha é obrigatória.", nameof(request));
+                throw new BadRequestException(new[] { "Senha é obrigatória." }, "Erro de Validação");
         }
 
         public static void ValidarAtualizacao(AtualizarUsuarioRequest request)
         {
             if (request == null)
-                throw new ArgumentNullException(nameof(request), "Dados de atualização não podem ser nulos.");
+                throw new BadRequestException(new[] { "Dados de atualização não podem ser nulos." }, "Erro de Validação");
 
-            if (request.Email is not null)
+            if (request.NovoEmail is not null)
             {
-                request.Email = request.Email.Trim();
-                if (!ValidarEmail(request.Email))
-                    throw new ArgumentException("Email inválido.", nameof(request));
+                request.NovoEmail = request.NovoEmail.Trim();
+                if (!ValidarEmail(request.NovoEmail))
+                    throw new BadRequestException(new[] { "Email inválido." }, "Erro de Validação");
             }
 
-            if (request.Nome is not null)
+            if (request.NovoNome is not null)
             {
-                request.Nome = request.Nome.Trim();
-                if (string.IsNullOrWhiteSpace(request.Nome))
-                    throw new ArgumentException("Nome inválido.", nameof(request));
+                request.NovoNome = request.NovoNome.Trim();
+                if (string.IsNullOrWhiteSpace(request.NovoNome))
+                    throw new BadRequestException(new[] { "Nome inválido." }, "Erro de Validação");
             }
 
             if (request.NovaSenha is not null)
             {
                 request.NovaSenha = request.NovaSenha.Trim();
                 if (string.IsNullOrWhiteSpace(request.NovaSenha))
-                    throw new ArgumentException("Nova senha inválida.", nameof(request));
+                    throw new BadRequestException(new[] { "Nova senha inválida." }, "Erro de Validação");
             }
         }
 
