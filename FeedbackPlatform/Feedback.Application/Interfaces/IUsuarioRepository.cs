@@ -1,5 +1,5 @@
 ﻿using FeedbackApp.Domain.Entities;
-using FeedbackApp.Application.Arguments;
+using FeedbackApp.Application.Arguments.Usuario;
 
 namespace FeedbackApp.Domain.Interfaces
 {

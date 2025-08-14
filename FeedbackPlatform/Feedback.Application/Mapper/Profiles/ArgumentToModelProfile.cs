@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FeedbackApp.Application.Arguments;
+using FeedbackApp.Application.Arguments.Usuario;
 using FeedbackApp.Application.Requests.Usuario;
 using FeedbackApp.Application.Responses.Usuario;
 using FeedbackApp.Domain.Entities;

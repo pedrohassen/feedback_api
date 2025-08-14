@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using FeedbackApp.Application.Arguments;
+using FeedbackApp.Application.Arguments.Usuario;
 using FeedbackApp.Application.Requests.Usuario;
-using FeedbackApp.Application.Responses.Usuario;
-using FeedbackApp.Domain.Entities;
 
 namespace FeedbackApp.Application.Mapper.Profiles
 {
@@ -14,13 +12,13 @@ namespace FeedbackApp.Application.Mapper.Profiles
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Nome, opt =>
                 {
-                    opt.Condition(src => !string.IsNullOrWhiteSpace(src.NovoNome));
-                    opt.MapFrom(src => src.NovoNome);
+                    opt.Condition(src => !string.IsNullOrWhiteSpace(src.Nome));
+                    opt.MapFrom(src => src.Nome);
                 })
                 .ForMember(dest => dest.Email, opt =>
                 {
-                    opt.Condition(src => !string.IsNullOrWhiteSpace(src.NovoEmail));
-                    opt.MapFrom(src => src.NovoEmail);
+                    opt.Condition(src => !string.IsNullOrWhiteSpace(src.Email));
+                    opt.MapFrom(src => src.Email);
                 })
                 .ForMember(dest => dest.SenhaHash, opt => opt.Ignore());
 

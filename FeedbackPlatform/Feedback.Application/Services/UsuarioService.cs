@@ -1,6 +1,6 @@
 ﻿using FeedbackApp.Application.Interfaces;
 using FeedbackApp.Application.Mapper;
-using FeedbackApp.Application.Arguments;
+using FeedbackApp.Application.Arguments.Usuario;
 using FeedbackApp.Application.Requests.Usuario;
 using FeedbackApp.Application.Responses.Usuario;
 using FeedbackApp.Application.Utils;
@@ -103,8 +103,8 @@ namespace FeedbackApp.Application.Services
             _mapper.Map(request, usuarioModel);
             usuarioModel.Id = id;
 
-            if (request.NovaSenha is not null)
-                usuarioModel.SenhaHash = _passwordHasher.Hash(request.NovaSenha);
+            if (request.Senha is not null)
+                usuarioModel.SenhaHash = _passwordHasher.Hash(request.Senha);
 
             UsuarioArgument usuarioArgument = _mapper.Map<UsuarioArgument>(usuarioModel);
 

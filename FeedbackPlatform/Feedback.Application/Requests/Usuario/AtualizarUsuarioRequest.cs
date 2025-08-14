@@ -1,9 +1,11 @@
-﻿namespace FeedbackApp.Application.Requests.Usuario
+﻿using FeedbackApp.Application.DTOs;
+
+namespace FeedbackApp.Application.Requests.Usuario
 {
-    public class AtualizarUsuarioRequest
+    public class AtualizarUsuarioRequest : UsuarioDTO
     {
-        public string? NovoNome { get; set; }
-        public string? NovoEmail { get; set; }
-        public string? NovaSenha { get; set; }
+        public new string? Nome { get; set; }
+        public new string? Email { get; set; }
+        public string? Senha { get; set; }
     }
 }

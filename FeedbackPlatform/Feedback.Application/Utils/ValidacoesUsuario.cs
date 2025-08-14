@@ -69,24 +69,24 @@ namespace FeedbackApp.Application.Utils
             if (request == null)
                 throw new BadRequestException(new[] { "Dados de atualização não podem ser nulos." }, "Erro de Validação");
 
-            if (request.NovoEmail is not null)
+            if (request.Email is not null)
             {
-                request.NovoEmail = request.NovoEmail.Trim();
-                if (!ValidarEmail(request.NovoEmail))
+                request.Email = request.Email.Trim();
+                if (!ValidarEmail(request.Email))
                     throw new BadRequestException(new[] { "Email inválido." }, "Erro de Validação");
             }
 
-            if (request.NovoNome is not null)
+            if (request.Nome is not null)
             {
-                request.NovoNome = request.NovoNome.Trim();
-                if (string.IsNullOrWhiteSpace(request.NovoNome))
+                request.Nome = request.Nome.Trim();
+                if (string.IsNullOrWhiteSpace(request.Nome))
                     throw new BadRequestException(new[] { "Nome inválido." }, "Erro de Validação");
             }
 
-            if (request.NovaSenha is not null)
+            if (request.Senha is not null)
             {
-                request.NovaSenha = request.NovaSenha.Trim();
-                if (string.IsNullOrWhiteSpace(request.NovaSenha))
+                request.Senha = request.Senha.Trim();
+                if (string.IsNullOrWhiteSpace(request.Senha))
                     throw new BadRequestException(new[] { "Nova senha inválida." }, "Erro de Validação");
             }
         }
