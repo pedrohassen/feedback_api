@@ -87,12 +87,12 @@ namespace FeedbackApp.Application.Services
             return response;
         }
 
-        public async Task<UsuarioResponse> AtualizarAsync(int id, AtualizarUsuarioRequest request)
+        public async Task<UsuarioResponse> AtualizarAsync(AtualizarUsuarioRequest request)
         {
             if (request == null)
                 throw new BadRequestException(new[] { "Dados de atualização não podem ser nulos." }, "Erro de Validação");
 
-            if (id <= 0)
+            if (request.id <= 0)
                 throw new BadRequestException(new[] { "ID inválido." }, "Erro de Validação");
 
             ValidacoesUsuario.ValidarAtualizacao(request);

@@ -64,14 +64,14 @@ namespace FeedbackApp.API.Controllers
             return Ok(usuario);
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut]
         [SwaggerOperation(
             Summary = "Atualizar usuário",
             Description = "Atualiza os dados de um usuário existente. Apenas os campos enviados serão modificados.",
             OperationId = "AtualizarUsuario")]
-        public async Task<IActionResult> Atualizar(int id, [FromBody] AtualizarUsuarioRequest request)
+        public async Task<IActionResult> Atualizar([FromBody] AtualizarUsuarioRequest request)
         {
-            UsuarioResponse response = await _usuarioService.AtualizarAsync(id, request);
+            UsuarioResponse response = await _usuarioService.AtualizarAsync(request);
             return Ok(response);
         }
 
