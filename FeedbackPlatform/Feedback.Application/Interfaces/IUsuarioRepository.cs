@@ -1,16 +1,15 @@
-﻿using FeedbackApp.Domain.Entities;
-using FeedbackApp.Application.Arguments.Usuario;
+﻿using FeedbackApp.Application.Arguments.Usuario;
+using FeedbackApp.Application.Models;
 
-namespace FeedbackApp.Domain.Interfaces
+namespace FeedbackApp.Application.Interfaces
 {
     public interface IUsuarioRepository
     {
         Task<UsuarioModel?> ObterPorIdAsync(int id);
-        Task<UsuarioModel?> ObterUsuarioEntidadePorIdAsync(int id);
         Task<UsuarioModel?> ObterPorEmailAsync(string email);
         Task<IEnumerable<UsuarioModel>> ListarTodosAsync();
         Task<UsuarioModel> CriarAsync(UsuarioArgument usuarioArgument);
-        Task AtualizarAsync(UsuarioArgument usuarioArgument);
-        Task RemoverAsync(int id);
+        Task<UsuarioModel?> AtualizarAsync(UsuarioArgument usuarioArgument);
+        Task<UsuarioModel?> RemoverAsync(int id);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace FeedbackApp.Application.Requests.Usuario
 {
-    public class LoginRequest : UsuarioDTO
+    public class UsuarioRequest : UsuarioDTO
     {
     }
 }

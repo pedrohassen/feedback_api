@@ -11,12 +11,14 @@ namespace FeedbackApp.Application.Mapper
             {
                 MapperConfiguration config = new MapperConfiguration(cfg =>
                 {
-                    //cfg.AddProfile(new FeedbackProfiles());
                     cfg.AddProfile(new ArgumentToModelProfile());
                     cfg.AddProfile(new ArgumentToResponseProfile());
+                    cfg.AddProfile(new ArgumentToEntityProfile());
+                    cfg.AddProfile(new ModelToEntityProfile());
                     cfg.AddProfile(new ModelToResponseProfile());
                     cfg.AddProfile(new RequestToArgumentProfile());
                     cfg.AddProfile(new RequestToModelProfile());
+                    cfg.AddProfile(new RequestToEntityProfile());
                 });
 
                 config.AssertConfigurationIsValid();

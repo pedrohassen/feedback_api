@@ -4,6 +4,6 @@ namespace FeedbackApp.Application.Responses.Usuario
 {
     public class UsuarioResponse : UsuarioDTO
     {
-        public int Id { get; set; }
+        public string Token { get; set; } = string.Empty;
     }
 }

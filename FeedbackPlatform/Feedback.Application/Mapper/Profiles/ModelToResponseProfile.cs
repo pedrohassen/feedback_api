@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using FeedbackApp.Application.Arguments;
-using FeedbackApp.Application.Requests.Usuario;
+using FeedbackApp.Application.Models;
 using FeedbackApp.Application.Responses.Usuario;
-using FeedbackApp.Domain.Entities;
 
 namespace FeedbackApp.Application.Mapper.Profiles
 {
@@ -10,9 +8,8 @@ namespace FeedbackApp.Application.Mapper.Profiles
     {
         public ModelToResponseProfile()
         {
-            CreateMap<UsuarioModel, UsuarioResponse>();
-
-            CreateMap<UsuarioModel, LoginResponse>()
+            CreateMap<UsuarioModel, UsuarioResponse>()
+                .ForMember(dest => dest.Senha, opt => opt.Ignore())
                 .ForMember(dest => dest.Token, opt => opt.Ignore());
         }
     }

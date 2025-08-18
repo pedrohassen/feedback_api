@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FeedbackApp.Infrastructure.Data;
-using FeedbackApp.Domain.Interfaces;
+using FeedbackApp.Application.Interfaces;
 using FeedbackApp.Infrastructure.Repositories;
 using FeedbackApp.Domain.Security;
 using FeedbackApp.Infrastructure.Security;

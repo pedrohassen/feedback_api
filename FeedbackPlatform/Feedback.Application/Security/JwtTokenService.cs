@@ -27,19 +27,19 @@ namespace FeedbackApp.Application.Security
                        ?? throw new InternalServerErrorException(new[] { "Jwt:Audience não está configurado." }, "Erro de Configuração");
         }
 
-        public string GerarToken(UsuarioModel usuario)
+        public string GerarToken(int id, string nome, string email)
         {
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_chave));
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var claims = new List<Claim>
+            List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
-                new Claim(ClaimTypes.Name, usuario.Nome),
-                new Claim(ClaimTypes.Email, usuario.Email)
+                new Claim(ClaimTypes.NameIdentifier, id.ToString()),
+                new Claim(ClaimTypes.Name, nome),
+                new Claim(ClaimTypes.Email, email)
             };
 
-            var token = new JwtSecurityToken(
+            JwtSecurityToken token = new JwtSecurityToken(
                 issuer: _emissor,
                 audience: _publico,
                 claims: claims,

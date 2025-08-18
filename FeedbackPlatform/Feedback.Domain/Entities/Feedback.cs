@@ -5,8 +5,9 @@
         public int Id { get; private set; }
         public string Texto { get; private set; }
         public DateTime DataEnvio { get; private set; } = DateTime.UtcNow;
+        public DateTime? DataAtualizacao { get; private set; }
         public int UsuarioId { get; private set; }
-        public UsuarioModel Usuario { get; private set; }
+        public Usuario Usuario { get; private set; }
 
         protected Feedback() { }
 

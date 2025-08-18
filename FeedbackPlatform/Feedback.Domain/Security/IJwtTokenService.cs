@@ -4,6 +4,6 @@ namespace FeedbackApp.Domain.Security
 {
     public interface IJwtTokenService
     {
-        string GerarToken(UsuarioModel usuario);
+        string GerarToken(int id, string nome, string email);
     }
 }

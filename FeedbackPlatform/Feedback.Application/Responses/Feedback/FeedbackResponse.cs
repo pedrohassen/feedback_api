@@ -1,9 +1,9 @@
-﻿using FeedbackApp.Application.DTOs;
+﻿//using FeedbackApp.Application.DTOs;
 
-namespace FeedbackApp.Application.Responses.Feedback
-{
-    public class FeedbackResponse : FeedbackDTO
-    {
-        public int Id { get; set; }
-    }
-}
+//namespace FeedbackApp.Application.Responses.Feedback
+//{
+//    public class FeedbackResponse : FeedbackDTO
+//    {
+//        public int Id { get; set; }
+//    }
+//}

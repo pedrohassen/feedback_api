@@ -31,7 +31,7 @@ namespace FeedbackApp.API.Extensions
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = assinatura,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero // Remove o atraso padrão de 5 minutos
+                    ClockSkew = TimeSpan.Zero
                 };
             });
             return services;

@@ -5,9 +5,8 @@ using FeedbackApp.Application.Requests.Usuario;
 using FeedbackApp.Application.Responses.Usuario;
 using FeedbackApp.Application.Utils;
 using FeedbackApp.CrossCutting.Exceptions;
-using FeedbackApp.Domain.Entities;
-using FeedbackApp.Domain.Interfaces;
 using FeedbackApp.Domain.Security;
+using FeedbackApp.Application.Models;
 
 namespace FeedbackApp.Application.Services
 {
@@ -30,36 +29,34 @@ namespace FeedbackApp.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<UsuarioResponse> RegistrarAsync(RegistroRequest request)
+        public async Task<UsuarioResponse> RegistrarAsync(UsuarioRequest request)
         {
-            ValidacoesUsuario.ValidarRegistro(request);
+            if (ValidacoesUsuario.ValidarRegistro(request))
+                request.Senha = _passwordHasher.Hash(request.Senha);
 
-            UsuarioModel? usuarioExistente = await _usuarioRepository.ObterPorEmailAsync(request.Email!);
-            if (usuarioExistente != null)
+            UsuarioModel? usuarioExistente = await _usuarioRepository.ObterPorEmailAsync(request.Email.Trim());
+            if (usuarioExistente is not null)
                 throw new ConflictException(new[] { "Email já cadastrado." }, "Conflito de Cadastro");
 
-            UsuarioArgument novoUsuario = _mapper.Map<UsuarioArgument>(request);
+            UsuarioArgument argument = _mapper.Map<UsuarioArgument>(request);
 
-            novoUsuario.SenhaHash = _passwordHasher.Hash(request.Senha);
+            UsuarioModel usuarioAdicionado = await _usuarioRepository.CriarAsync(argument);
 
-            UsuarioModel usuarioCriado = await _usuarioRepository.CriarAsync(novoUsuario);
-
-            UsuarioResponse response = _mapper.Map<UsuarioResponse>(usuarioCriado);
-
-            return response;
+            return _mapper.Map<UsuarioResponse>(usuarioAdicionado);
         }
 
-        public async Task<LoginResponse> LoginAsync(LoginRequest request)
+        public async Task<UsuarioResponse> LoginAsync(UsuarioRequest request)
         {
             ValidacoesUsuario.ValidarLogin(request);
 
-            UsuarioModel? usuario = await _usuarioRepository.ObterPorEmailAsync(request.Email.Trim());
+            UsuarioModel? usuarioExiste = await _usuarioRepository.ObterPorEmailAsync(request.Email.Trim());
 
-            if (usuario == null || !_passwordHasher.Verify(request.Senha.Trim(), usuario.SenhaHash))
+            bool credenciaisInvalidas = usuarioExiste is null || !_passwordHasher.Verify(request.Senha.Trim(), usuarioExiste.SenhaHash);
+            if (credenciaisInvalidas)
                 throw new UnauthorizedException(new[] { "Credenciais inválidas." }, "Acesso Negado");
 
-            LoginResponse response = _mapper.Map<LoginResponse>(usuario);
-            response.Token = _jwtTokenService.GerarToken(usuario);
+            UsuarioResponse response = _mapper.Map<UsuarioResponse>(usuarioExiste!);
+            response.Token = _jwtTokenService.GerarToken(usuarioExiste!.Id, usuarioExiste.Nome, usuarioExiste.Email);
 
             return response;
         }
@@ -68,9 +65,7 @@ namespace FeedbackApp.Application.Services
         {
             IEnumerable<UsuarioModel> usuarios = await _usuarioRepository.ListarTodosAsync();
 
-            IEnumerable<UsuarioResponse> response = _mapper.Map<IEnumerable<UsuarioResponse>>(usuarios);
-
-            return response;
+            return _mapper.Map<IEnumerable<UsuarioResponse>>(usuarios);
         }
 
         public async Task<UsuarioResponse?> ObterPorIdAsync(int id)
@@ -78,52 +73,36 @@ namespace FeedbackApp.Application.Services
             if (id <= 0)
                 throw new BadRequestException(new[] { "ID inválido." }, "Erro de Validação");
 
-            UsuarioModel? usuarioModel = await _usuarioRepository.ObterPorIdAsync(id)
+            UsuarioModel? usuario = await _usuarioRepository.ObterPorIdAsync(id)
                 ?? throw new NotFoundException(new[] { "Usuário não encontrado." }, "Recurso Inexistente");
 
-            UsuarioArgument usuarioArgument = _mapper.Map<UsuarioArgument>(usuarioModel);
-
-            UsuarioResponse response = _mapper.Map<UsuarioResponse>(usuarioArgument);
+            UsuarioResponse response = _mapper.Map<UsuarioResponse>(usuario);
             return response;
         }
 
-        public async Task<UsuarioResponse> AtualizarAsync(AtualizarUsuarioRequest request)
+        public async Task<UsuarioResponse> AtualizarAsync(UsuarioRequest request)
         {
-            if (request == null)
-                throw new BadRequestException(new[] { "Dados de atualização não podem ser nulos." }, "Erro de Validação");
-
-            if (request.id <= 0)
-                throw new BadRequestException(new[] { "ID inválido." }, "Erro de Validação");
-
             ValidacoesUsuario.ValidarAtualizacao(request);
 
-            UsuarioModel usuarioModel = await _usuarioRepository.ObterPorIdAsync(id)
+            request.Senha = _passwordHasher.Hash(request.Senha);
+
+            UsuarioArgument usuarioArgument = _mapper.Map<UsuarioArgument>(request);
+
+            UsuarioModel? usuarioAtualizado = await _usuarioRepository.AtualizarAsync(usuarioArgument)
                 ?? throw new NotFoundException(new[] { "Usuário não encontrado." }, "Recurso Inexistente");
 
-            _mapper.Map(request, usuarioModel);
-            usuarioModel.Id = id;
-
-            if (request.Senha is not null)
-                usuarioModel.SenhaHash = _passwordHasher.Hash(request.Senha);
-
-            UsuarioArgument usuarioArgument = _mapper.Map<UsuarioArgument>(usuarioModel);
-
-            await _usuarioRepository.AtualizarAsync(usuarioArgument);
-
-            UsuarioResponse response = _mapper.Map<UsuarioResponse>(usuarioModel);
-
-            return response;
+            return _mapper.Map<UsuarioResponse>(usuarioAtualizado);
         }
 
-        public async Task RemoverAsync(int id)
+        public async Task<UsuarioResponse> RemoverAsync(int id)
         {
             if (id <= 0)
                 throw new BadRequestException(new[] { "ID inválido." }, "Erro de Validação");
 
-            _ = await _usuarioRepository.ObterPorIdAsync(id)
+            UsuarioModel? usuarioRemovido = await _usuarioRepository.RemoverAsync(id)
                 ?? throw new NotFoundException(new[] { "Usuário não encontrado." }, "Recurso Inexistente");
 
-            await _usuarioRepository.RemoverAsync(id);
+            return _mapper.Map<UsuarioResponse>(usuarioRemovido);
         }
     }
 }

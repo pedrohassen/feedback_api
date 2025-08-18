@@ -1,7 +1,6 @@
 ﻿using FeedbackApp.Application.Interfaces;
 using FeedbackApp.Application.Requests.Usuario;
 using FeedbackApp.Application.Responses.Usuario;
-using FeedbackApp.CrossCutting.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -24,7 +23,7 @@ namespace FeedbackApp.API.Controllers
             Summary = "Registrar novos usuários.",
             Description = "Cadastro de novos usuários na aplicação.",
             OperationId = "RegistroUsuario")]
-        public async Task<IActionResult> Registrar([FromBody] RegistroRequest request)
+        public async Task<IActionResult> RegistrarUsuarioAsync([FromBody] UsuarioRequest request)
         {
             UsuarioResponse response = await _usuarioService.RegistrarAsync(request);
             return Ok(response);
@@ -35,9 +34,9 @@ namespace FeedbackApp.API.Controllers
             Summary = "Realizar login de usuários.",
             Description = "Autenticação de usuários na aplicação.",
             OperationId = "LoginUsuario")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> LoginUsuarioAsync([FromBody] UsuarioRequest request)
         {
-            LoginResponse response = await _usuarioService.LoginAsync(request);
+            UsuarioResponse response = await _usuarioService.LoginAsync(request);
             return Ok(response);
         }
 
@@ -47,7 +46,7 @@ namespace FeedbackApp.API.Controllers
             Summary = "Listar usuários.",
             Description = "Retorna uma lista de todos os usuários registrados na aplicação.",
             OperationId = "ListarUsuarios")]
-        public async Task<IActionResult> ListarUsuarios()
+        public async Task<IActionResult> ListarUsuariosAsync()
         {
             IEnumerable<UsuarioResponse> usuarios = await _usuarioService.ListarUsuariosAsync();
             return Ok(usuarios);
@@ -58,7 +57,7 @@ namespace FeedbackApp.API.Controllers
             Summary = "Obter usuário por ID",
             Description = "Retorna os detalhes de um usuário específico pelo ID.",
             OperationId = "ObterUsuarioPorId")]
-        public async Task<IActionResult> ObterPorId(int id)
+        public async Task<IActionResult> ObterPorIdAsync(int id)
         {
             UsuarioResponse? usuario = await _usuarioService.ObterPorIdAsync(id);
             return Ok(usuario);
@@ -67,9 +66,9 @@ namespace FeedbackApp.API.Controllers
         [HttpPut]
         [SwaggerOperation(
             Summary = "Atualizar usuário",
-            Description = "Atualiza os dados de um usuário existente. Apenas os campos enviados serão modificados.",
+            Description = "Atualiza os dados de um usuário existente. Id, Nome, Email e Senha são obrigatórios.",
             OperationId = "AtualizarUsuario")]
-        public async Task<IActionResult> Atualizar([FromBody] AtualizarUsuarioRequest request)
+        public async Task<IActionResult> AtualizarUsuarioAsync([FromBody] UsuarioRequest request)
         {
             UsuarioResponse response = await _usuarioService.AtualizarAsync(request);
             return Ok(response);
@@ -80,7 +79,7 @@ namespace FeedbackApp.API.Controllers
             Summary = "Remover usuário",
             Description = "Remove um usuário da aplicação pelo ID.",
             OperationId = "RemoverUsuario")]
-        public async Task<IActionResult> Remover(int id)
+        public async Task<IActionResult> RemoverUsuarioAsync(int id)
         {
             await _usuarioService.RemoverAsync(id);
             return NoContent();

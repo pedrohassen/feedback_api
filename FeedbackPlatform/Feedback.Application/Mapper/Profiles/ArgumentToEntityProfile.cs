@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
 using FeedbackApp.Application.Arguments.Usuario;
-using FeedbackApp.Application.Models;
+using FeedbackApp.Domain.Entities;
 
 namespace FeedbackApp.Application.Mapper.Profiles
 {
-    public class ArgumentToModelProfile : Profile
+    public class ArgumentToEntityProfile : Profile
     {
-        public ArgumentToModelProfile()
+        public ArgumentToEntityProfile()
         {
-            CreateMap<UsuarioArgument, UsuarioModel>()
+            CreateMap<UsuarioArgument, Usuario>()
                 .ForMember(dest => dest.SenhaHash, opt => opt.MapFrom(src => src.Senha))
+                .ForMember(dest => dest.FeedbacksRecebidos, opt => opt.Ignore())
                 .ReverseMap();
         }
     }
