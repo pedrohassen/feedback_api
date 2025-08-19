@@ -12,7 +12,6 @@ namespace FeedbackApp.Application.Mapper.Profiles
                 .ForMember(dest => dest.SenhaHash, opt =>
                     opt.MapFrom(src => src.Senha))
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
-            //.ForMember(dest => dest.FeedbacksRecebidos, opt => opt.Ignore());
         }
     }
 }
