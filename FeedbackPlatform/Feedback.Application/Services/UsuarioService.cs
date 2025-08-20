@@ -31,7 +31,7 @@ namespace FeedbackApp.Application.Services
 
         public async Task<UsuarioResponse> RegistrarAsync(UsuarioRequest request)
         {
-            if (ValidacoesUsuario.ValidarRegistro(request))
+            if (ValidacoesUsuario.ValidarLimparRegistro(request))
                 request.Senha = _passwordHasher.Hash(request.Senha);
 
             UsuarioModel? usuarioExistente = await _usuarioRepository.ObterPorEmailAsync(request.Email.Trim());
@@ -47,7 +47,7 @@ namespace FeedbackApp.Application.Services
 
         public async Task<UsuarioResponse> LoginAsync(UsuarioRequest request)
         {
-            ValidacoesUsuario.ValidarLogin(request);
+            ValidacoesUsuario.ValidarLimparLogin(request);
 
             UsuarioModel? usuarioExiste = await _usuarioRepository.ObterPorEmailAsync(request.Email.Trim());
 
@@ -82,7 +82,9 @@ namespace FeedbackApp.Application.Services
 
         public async Task<UsuarioResponse> AtualizarAsync(UsuarioRequest request)
         {
-            ValidacoesUsuario.ValidarAtualizacao(request);
+            await ObterPorIdAsync(request.Id);
+
+            ValidacoesUsuario.ValidarLimparAtualizacao(request);
 
             request.Senha = _passwordHasher.Hash(request.Senha);
 
