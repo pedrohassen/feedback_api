@@ -55,11 +55,7 @@ namespace FeedbackApp.Infrastructure.Repositories
 
         public async Task<UsuarioModel?> AtualizarAsync(UsuarioArgument argument)
         {
-            Usuario? entidade = await _context.Usuarios.FindAsync(argument.Id);
-            if (entidade == null)
-                return null;
-
-            _mapper.Map(argument, entidade);
+            Usuario entidade = _mapper.Map<Usuario>(argument);
             await _context.SaveChangesAsync();
 
             return _mapper.Map<UsuarioModel>(entidade);
