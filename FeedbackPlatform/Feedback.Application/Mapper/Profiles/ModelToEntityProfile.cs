@@ -9,7 +9,7 @@ namespace FeedbackApp.Application.Mapper.Profiles
         public ModelToEntityProfile()
         {
             CreateMap<UsuarioModel, Usuario>()
-                .ForMember(dest => dest.SenhaHash, opt => opt.Ignore())
+                .ForMember(dest => dest.Senha, opt => opt.Ignore())
                 .ReverseMap();
         }
     }
