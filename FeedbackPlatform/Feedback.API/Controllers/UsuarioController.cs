@@ -40,7 +40,7 @@ namespace FeedbackApp.API.Controllers
             return Ok(response);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [SwaggerOperation(
             Summary = "Listar usuários.",

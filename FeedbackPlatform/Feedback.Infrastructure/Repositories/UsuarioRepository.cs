@@ -24,8 +24,6 @@ namespace FeedbackApp.Infrastructure.Repositories
         public async Task<UsuarioModel?> ObterPorIdAsync(int id)
         {
             Usuario? entidade = await _context.Usuarios.FindAsync(id);
-            if (entidade == null)
-                return null;
             return _mapper.Map<UsuarioModel?>(entidade);
         }
 
@@ -55,10 +53,13 @@ namespace FeedbackApp.Infrastructure.Repositories
 
         public async Task<UsuarioModel?> AtualizarAsync(UsuarioArgument argument)
         {
-            Usuario entidade = _mapper.Map<Usuario>(argument);
+            Usuario? entidadeExistente = await _context.Usuarios.FindAsync(argument.Id);
+
+            _mapper.Map(argument, entidadeExistente);
+
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<UsuarioModel>(entidade);
+            return _mapper.Map<UsuarioModel>(entidadeExistente!);
         }
 
         public async Task<UsuarioModel?> RemoverAsync(int id)
