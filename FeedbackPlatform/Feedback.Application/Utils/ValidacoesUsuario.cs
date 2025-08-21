@@ -24,73 +24,84 @@ namespace FeedbackApp.Application.Utils
             }
         }
 
-        public static bool ValidarRegistro(UsuarioRequest request)
+        public static bool ValidarLimparRegistro(UsuarioRequest request)
         {
-            if (request == null)
-                throw new BadRequestException(new[] { "Dados de registro não podem ser nulos." }, "Erro de Validação");
+            LancaExcecaoRequest(request);
+            LancaExcecaoNome(request);
+            LancaExcecaoEmail(request);
+            LancaExcecaoSenha(request);
 
-            request.Nome = request.Nome.Trim();
-            request.Email = request.Email.Trim();
-            request.Senha = request.Senha.Trim();
-
-            if (string.IsNullOrWhiteSpace(request.Nome))
-                throw new BadRequestException(new[] { "Nome é obrigatório." }, "Erro de Validação");
-
-            if (string.IsNullOrWhiteSpace(request.Email))
-                throw new BadRequestException(new[] { "Email é obrigatório." }, "Erro de Validação");
-
-            if (!ValidarEmail(request.Email))
-                throw new BadRequestException(new[] { "Email inválido." }, "Erro de Validação");
-
-            if (string.IsNullOrWhiteSpace(request.Senha))
-                throw new BadRequestException(new[] { "Senha é obrigatória." }, "Erro de Validação");
+            LimpaCamposNomeEmail(request);
+            LimpaCampoSenha(request);
 
             return true;
         }
 
-        public static void ValidarLogin(UsuarioRequest? request)
+        public static void ValidarLimparLogin(UsuarioRequest request)
         {
-            if (request is null)
-                throw new BadRequestException(new[] { "Dados de login não podem ser nulos." }, "Erro de Validação");
+            LancaExcecaoRequest(request);
+            LancaExcecaoEmail(request);
+            LancaExcecaoSenha(request);
 
-            request.Email = request.Email?.Trim() ?? string.Empty;
-            request.Senha = request.Senha?.Trim() ?? string.Empty;
-
-            if (string.IsNullOrWhiteSpace(request.Email))
-                throw new BadRequestException(new[] { "Email é obrigatório." }, "Erro de Validação");
-
-            if (!ValidarEmail(request.Email))
-                throw new BadRequestException(new[] { "Email inválido." }, "Erro de Validação");
-
-            if (string.IsNullOrWhiteSpace(request.Senha))
-                throw new BadRequestException(new[] { "Senha é obrigatória." }, "Erro de Validação");
+            LimpaCamposNomeEmail(request);
         }
 
-        public static bool ValidarAtualizacao(UsuarioRequest request)
+        public static bool ValidarLimparAtualizacao(UsuarioRequest request)
+        {
+            LancaExcecaoId(request);
+            LancaExcecaoRequest(request);
+            LancaExcecaoNome(request);
+            LancaExcecaoEmail(request);
+            LancaExcecaoSenha(request);
+
+            LimpaCamposNomeEmail(request);
+            LimpaCampoSenha(request);
+
+            return true;
+        }
+
+        public static void LancaExcecaoId(UsuarioRequest request)
         {
             if (request.Id <= 0)
                 throw new BadRequestException(new[] { "ID inválido." }, "Erro de Validação");
+        }
 
-            if (request == null)
-                throw new BadRequestException(new[] { "Dados de atualização não podem ser nulos." }, "Erro de Validação");
+        public static void LancaExcecaoRequest(UsuarioRequest request)
+        {
+            if (request is null)
+                throw new BadRequestException(new[] { "Dados de login não podem ser nulos." }, "Erro de Validação");
+        }
 
+        public static void LancaExcecaoNome(UsuarioRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Nome))
+                throw new BadRequestException(new[] { "Nome é obrigatório." }, "Erro de Validação");
+        }
+
+        public static void LancaExcecaoEmail(UsuarioRequest request)
+        {
             if (string.IsNullOrWhiteSpace(request.Email))
                 throw new BadRequestException(new[] { "Email é obrigatório." }, "Erro de Validação");
-            request.Email = request.Email.Trim();
 
             if (!ValidarEmail(request.Email))
                 throw new BadRequestException(new[] { "Email inválido." }, "Erro de Validação");
-
-            if (string.IsNullOrWhiteSpace(request.Nome))
-                throw new BadRequestException(new[] { "Nome é obrigatório." }, "Erro de Validação");
-            request.Nome = request.Nome.Trim();
-
-            if (string.IsNullOrWhiteSpace(request.Senha))
-                throw new BadRequestException(new[] { "Senha é obrigatória." }, "Erro de Validação");
-            request.Senha = request.Senha.Trim();
-
-            return true;
         }
 
+        public static void LancaExcecaoSenha(UsuarioRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Senha))
+                throw new BadRequestException(new[] { "Senha é obrigatória." }, "Erro de Validação");
+        }
+
+        public static void LimpaCamposNomeEmail(UsuarioRequest request)
+        {
+            request.Nome = request.Nome.Trim();
+            request.Email = request.Email.Trim();
+        }
+
+        public static void LimpaCampoSenha(UsuarioRequest request)
+        {
+            request.Senha = request.Senha.Trim();
+        }
     }
 }
