@@ -9,8 +9,6 @@ namespace FeedbackApp.Application.Mapper.Profiles
         public RequestToModelProfile()
         {
             CreateMap<UsuarioRequest, UsuarioModel>()
-                .ForMember(dest => dest.SenhaHash, opt =>
-                    opt.MapFrom(src => src.Senha))
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
