@@ -2,7 +2,7 @@
 {
     public class Constants
     {
-        public enum ValidacaoUsuario
+        public enum TipoValidacao
         {
             Registro,
             Login,
@@ -11,7 +11,6 @@
 
         public static class MensagemErro
         {
-            public const string RequestNaoNula = "Dados de login não podem ser nulos.";
             public const string NomeObrigatorio = "Nome é obrigatório.";
             public const string EmailObrigatorio = "Email é obrigatório.";
             public const string EmailJaCadastrado = "Email já cadastrado.";
