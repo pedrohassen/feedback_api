@@ -33,7 +33,7 @@ namespace FeedbackApp.Application.Services
 
         public async Task<UsuarioResponse> RegistrarAsync(UsuarioRequest request)
         {
-            ValidacoesUsuario.ValidarRequest(request, ValidacaoUsuario.Registro);
+            ValidacoesUsuario.ValidarRequest(request, TipoValidacao.Registro);
 
             request.Senha = _passwordHasher.Hash(request.Senha);
             request.Nome = request.Nome.Trim();
@@ -52,7 +52,7 @@ namespace FeedbackApp.Application.Services
 
         public async Task<UsuarioResponse> LoginAsync(UsuarioRequest request)
         {
-            ValidacoesUsuario.ValidarRequest(request, ValidacaoUsuario.Login);
+            ValidacoesUsuario.ValidarRequest(request, TipoValidacao.Login);
 
             request.Nome = request.Nome.Trim();
             request.Email = request.Email.Trim();
@@ -78,8 +78,7 @@ namespace FeedbackApp.Application.Services
 
         public async Task<UsuarioResponse?> ObterPorIdAsync(int id)
         {
-            if (id <= 0)
-                throw new BadRequestException(new[] { IdInvalido }, ErroValidacao);
+            ValidacoesUsuario.ValidarIdUsuario(id);
 
             UsuarioModel? usuario = await _usuarioRepository.ObterPorIdAsync(id)
                 ?? throw new NotFoundException(new[] { UsuarioNaoEncontrado }, RecursoInexistente);
@@ -92,7 +91,7 @@ namespace FeedbackApp.Application.Services
         {
             await ObterPorIdAsync(request.Id);
 
-            ValidacoesUsuario.ValidarRequest(request, ValidacaoUsuario.Atualizacao);
+            ValidacoesUsuario.ValidarRequest(request, TipoValidacao.Atualizacao);
 
             request.Senha = _passwordHasher.Hash(request.Senha);
             request.Nome = request.Nome.Trim();
@@ -108,8 +107,7 @@ namespace FeedbackApp.Application.Services
 
         public async Task<UsuarioResponse> RemoverAsync(int id)
         {
-            if (id <= 0)
-                throw new BadRequestException(new[] { IdInvalido }, ErroValidacao);
+            ValidacoesUsuario.ValidarIdUsuario(id);
 
             UsuarioModel? usuarioRemovido = await _usuarioRepository.RemoverAsync(id)
                 ?? throw new NotFoundException(new[] { UsuarioNaoEncontrado }, RecursoInexistente);

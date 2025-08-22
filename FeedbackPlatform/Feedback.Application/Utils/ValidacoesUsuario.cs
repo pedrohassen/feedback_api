@@ -9,58 +9,39 @@ namespace FeedbackApp.Application.Utils
 {
     public static class ValidacoesUsuario
     {
-        public static bool ValidarEmail(string email)
+        public static void ValidarEmail(string email)
         {
-            if (string.IsNullOrWhiteSpace(email))
-                return false;
+            ValidarDadosUsuario(email, EmailObrigatorio);
 
-            try
-            {
-                MailAddress mailAddress = new (email);
-                string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-                return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
-            }
-            catch
-            {
-                return false;
-            }
+            string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            if (!Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase))
+                throw new BadRequestException(new[] { EmailInvalido }, ErroValidacao);
         }
 
-        private static void ValidarCondicao(bool condicao, string mensagemErro)
+        public static void ValidarIdUsuario(int id)
         {
-            if (!condicao)
+            if (id <= 0)
+                throw new BadRequestException(new[] { IdInvalido }, ErroValidacao);
+        }
+
+        private static void ValidarDadosUsuario(string valor, string mensagemErro)
+        {
+            if (string.IsNullOrWhiteSpace(valor))
                 throw new BadRequestException(new[] { mensagemErro }, ErroValidacao);
         }
 
-        public static void ValidarRequest(UsuarioRequest request, ValidacaoUsuario tipo)
+        public static void ValidarRequest(UsuarioRequest request, TipoValidacao tipo)
         {
-            ValidarCondicao(request is not null, RequestNaoNula);
+            ValidarEmail(request!.Email);
+            ValidarDadosUsuario(request.Senha, SenhaObrigatoria);
 
-            switch (tipo)
+            if (tipo == TipoValidacao.Registro || tipo == TipoValidacao.Atualizacao)
             {
-                case ValidacaoUsuario.Registro:
-                    ValidarCondicao(!string.IsNullOrWhiteSpace(request!.Nome), NomeObrigatorio);
-                    ValidarCondicao(!string.IsNullOrWhiteSpace(request.Email), EmailObrigatorio);
-                    ValidarCondicao(ValidarEmail(request.Email), EmailInvalido);
-                    ValidarCondicao(!string.IsNullOrWhiteSpace(request.Senha), SenhaObrigatoria);
-                    break;
-
-                case ValidacaoUsuario.Login:
-                    ValidarCondicao(!string.IsNullOrWhiteSpace(request!.Email), EmailObrigatorio);
-                    ValidarCondicao(ValidarEmail(request.Email), EmailInvalido);
-                    ValidarCondicao(!string.IsNullOrWhiteSpace(request.Senha), SenhaObrigatoria);
-                    break;
-
-                case ValidacaoUsuario.Atualizacao:
-                    ValidarCondicao(request!.Id >= 0, IdInvalido);
-                    ValidarCondicao(!string.IsNullOrWhiteSpace(request.Nome), NomeObrigatorio);
-                    ValidarCondicao(!string.IsNullOrWhiteSpace(request.Email), EmailObrigatorio);
-                    ValidarCondicao(ValidarEmail(request.Email), EmailInvalido);
-                    ValidarCondicao(!string.IsNullOrWhiteSpace(request.Senha), SenhaObrigatoria);
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(tipo), tipo, null);
+                if (tipo == TipoValidacao.Atualizacao)
+                {
+                    ValidarIdUsuario(request.Id);
+                }
+                ValidarDadosUsuario(request.Nome, NomeObrigatorio);
             }
         }
     }
