@@ -30,8 +30,15 @@ namespace FeedbackApp.Application.Utils
                 throw new BadRequestException(new[] { mensagemErro }, ErroValidacao);
         }
 
+        private static void ValidarNullRequest(UsuarioRequest request, string mensagemErro)
+        {
+            if (request is null)
+                throw new BadRequestException(new[] { mensagemErro }, RequisicaoInvalida);
+        }
+
         public static void ValidarRequest(UsuarioRequest request, TipoValidacao tipo)
         {
+            ValidarNullRequest(request, RequestNula);
             ValidarEmail(request!.Email);
             ValidarDadosUsuario(request.Senha, SenhaObrigatoria);
 

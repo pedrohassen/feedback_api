@@ -23,7 +23,7 @@ namespace FeedbackApp.API.Controllers
             Summary = "Registrar novos usuários.",
             Description = "Cadastro de novos usuários na aplicação.",
             OperationId = "RegistroUsuario")]
-        public async Task<IActionResult> RegistrarUsuarioAsync([FromBody] UsuarioRequest request)
+        public async Task<IActionResult> RegistrarUsuarioAsync([FromBody] UsuarioRequest? request)
         {
             UsuarioResponse response = await _usuarioService.RegistrarAsync(request);
             return Ok(response);

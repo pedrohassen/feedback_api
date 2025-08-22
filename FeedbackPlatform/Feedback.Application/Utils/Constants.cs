@@ -11,6 +11,7 @@
 
         public static class MensagemErro
         {
+            public const string RequestNula = "Favor preencher os dados.";
             public const string NomeObrigatorio = "Nome é obrigatório.";
             public const string EmailObrigatorio = "Email é obrigatório.";
             public const string EmailJaCadastrado = "Email já cadastrado.";
@@ -23,6 +24,7 @@
             public const string ConflitoCadastro = "Conflito de Cadastro";
             public const string AcessoNegado = "Acesso Negado";
             public const string RecursoInexistente = "Recurso Inexistente";
+            public const string RequisicaoInvalida = "Requisição Inválida.";
         }
     }
 }
