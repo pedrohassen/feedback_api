@@ -24,17 +24,17 @@ namespace FeedbackApp.Infrastructure.Data
                     .HasMaxLength(100);
             });
 
-            modelBuilder.Entity<Feedback>(entity =>
-            {
-                entity.Property(f => f.Texto)
-                    .IsRequired()
-                    .HasMaxLength(500);
+            //modelBuilder.Entity<Feedback>(entity =>
+            //{
+            //    entity.Property(f => f.Texto)
+            //        .IsRequired()
+            //        .HasMaxLength(500);
 
-                entity.HasOne(f => f.Usuario)
-                    .WithMany(u => u.FeedbacksRecebidos)
-                    .HasForeignKey(f => f.UsuarioId)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+            //    entity.HasOne(f => f.Usuario)
+            //        .WithMany(u => u.FeedbacksRecebidos)
+            //        .HasForeignKey(f => f.UsuarioId)
+            //        .OnDelete(DeleteBehavior.Cascade);
+            //});
         }
     }
 }
