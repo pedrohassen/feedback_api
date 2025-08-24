@@ -1,4 +1,5 @@
-﻿using FeedbackApp.Application.Interfaces;
+﻿using System.Net;
+using FeedbackApp.Application.Interfaces;
 using FeedbackApp.Application.Mapper;
 using FeedbackApp.Application.Models;
 using FeedbackApp.Application.Responses;
@@ -22,10 +23,10 @@ namespace FeedbackApp.Application.Services
         public async Task<FeedbackResponse?> ObterPorIdAsync(int id)
         {
             if (id <= 0)
-                throw new BadRequestException(new[] { "ID inválido." }, "Erro de Validação");
+                throw new UsuariosErrosException("ID inválido.", HttpStatusCode.BadRequest, "Erro de Validação");
 
             FeedbackModel? feedback = await _feedbackRepository.ObterPorIdAsync(id)
-                ?? throw new NotFoundException(new[] { "Feedback não encontrado." }, "Recurso Inexistente");
+                ?? throw new UsuariosErrosException("Feedback não encontrado.", HttpStatusCode.NotFound, "Recurso Inexistente");
 
             return _mapper.Map<FeedbackResponse>(feedback);
         }

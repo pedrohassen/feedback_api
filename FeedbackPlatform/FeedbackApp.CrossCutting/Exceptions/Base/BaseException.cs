@@ -1,24 +1,33 @@
-﻿namespace FeedbackApp.CrossCutting.Exceptions.Base
-{
-    public abstract class BaseException : Exception
-    {
-        public string[] Mensagens { get; }
-        public string Titulo { get; }
-        public string MensagemLog { get; }
-        public virtual int StatusCode { get; }
+﻿using System.Net;
+using System.Runtime.Serialization;
 
-        protected BaseException(
+namespace FeedbackApp.CrossCutting.Exceptions.Base
+{
+    [Serializable]
+    public class BaseException : Exception
+    {
+        public string[] Mensagens { get; set; }
+        public string Titulo { get; set; }
+        public string MensagemLog { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
+
+        public BaseException(
             string[] mensagens,
-            string titulo = "Erro",
-            int statusCode = 400,
+            string titulo,
+            HttpStatusCode statusCode,
             string mensagemLog = null,
             Exception innerException = null)
-            : base(mensagens?.FirstOrDefault(), innerException)
+            : base(mensagens.FirstOrDefault(), innerException)
         {
             Mensagens = mensagens ?? new[] { "Ocorreu um erro inesperado." };
             Titulo = titulo;
             StatusCode = statusCode;
             MensagemLog = string.IsNullOrWhiteSpace(mensagemLog) ? Message : mensagemLog;
+        }
+
+        protected BaseException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
         }
     }
 }
