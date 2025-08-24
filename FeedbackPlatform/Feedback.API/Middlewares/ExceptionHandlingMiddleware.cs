@@ -33,12 +33,12 @@ namespace FeedbackApp.API.Middlewares
 
         private async Task HandleBaseExceptionAsync(HttpContext context, BaseException exception)
         {
-            _logger.LogWarning(exception, "Erro conhecido ocorrido: {Mensagem}", exception.Message);
+            _logger.LogWarning(exception, "Erro conhecido ocorrido: {MensagemLog}", exception.MensagemLog);
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = exception.StatusCode;
+            context.Response.StatusCode = (int)exception.StatusCode;
 
-            object response = new
+            var response = new
             {
                 titulo = exception.Titulo,
                 mensagens = exception.Mensagens
@@ -55,10 +55,10 @@ namespace FeedbackApp.API.Middlewares
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            object response = new
+            var response = new
             {
                 titulo = "Erro Interno",
-                mensagens = new string[] { "Ocorreu um erro inesperado. Tente novamente mais tarde." }
+                mensagens = new[] { "Ocorreu um erro inesperado. Tente novamente mais tarde." }
             };
 
             string json = JsonSerializer.Serialize(response);

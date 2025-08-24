@@ -1,5 +1,5 @@
-﻿using System.Net.Mail;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using System.Net;
 using FeedbackApp.Application.Requests;
 using FeedbackApp.CrossCutting.Exceptions;
 using static FeedbackApp.Application.Utils.Constants;
@@ -15,31 +15,31 @@ namespace FeedbackApp.Application.Utils
 
             string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
             if (!Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase))
-                throw new BadRequestException(new[] { EmailInvalido }, ErroValidacao);
+                throw new UsuariosErrosException(EmailInvalido, HttpStatusCode.BadRequest, ErroValidacao);
         }
 
         public static void ValidarIdUsuario(int id)
         {
             if (id <= 0)
-                throw new BadRequestException(new[] { IdInvalido }, ErroValidacao);
+                throw new UsuariosErrosException(IdInvalido, HttpStatusCode.BadRequest, ErroValidacao);
         }
 
         private static void ValidarDadosUsuario(string valor, string mensagemErro)
         {
             if (string.IsNullOrWhiteSpace(valor))
-                throw new BadRequestException(new[] { mensagemErro }, ErroValidacao);
+                throw new UsuariosErrosException(mensagemErro, HttpStatusCode.BadRequest, ErroValidacao);
         }
 
         private static void ValidarNullRequest(UsuarioRequest request, string mensagemErro)
         {
             if (request is null)
-                throw new BadRequestException(new[] { mensagemErro }, RequisicaoInvalida);
+                throw new UsuariosErrosException(mensagemErro, HttpStatusCode.BadRequest, RequisicaoInvalida);
         }
 
         public static void ValidarRequest(UsuarioRequest request, TipoValidacao tipo)
         {
             ValidarNullRequest(request, RequestNula);
-            ValidarEmail(request!.Email);
+            ValidarEmail(request.Email);
             ValidarDadosUsuario(request.Senha, SenhaObrigatoria);
 
             if (tipo == TipoValidacao.Registro || tipo == TipoValidacao.Atualizacao)

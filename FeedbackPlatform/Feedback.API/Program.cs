@@ -1,6 +1,7 @@
+using FeedbackApp.API.Extensions;
 using FeedbackApp.Application.Extensions;
 using FeedbackApp.Infrastructure.Extensions;
-using FeedbackApp.API.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FeedbackApp.API
 {
@@ -26,6 +27,11 @@ namespace FeedbackApp.API
         private static void ConfigureServices(WebApplicationBuilder builder)
         {
             builder.Services.AddControllers();
+
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             builder.Services.AddCors(options =>
             {
