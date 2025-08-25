@@ -17,13 +17,13 @@ namespace FeedbackApp.Application.Security
         public JwtTokenService(IConfiguration configuration)
         {
             _chave = configuration["Jwt:SecretKey"]?.Trim()
-                     ?? throw new InternalServerErrorException(new[] { "Jwt:SecretKey não está configurado." }, "Erro de Configuração");
+                     ?? throw new JwtException(new[] { "Jwt:SecretKey não está configurado." });
 
             _emissor = configuration["Jwt:Issuer"]?.Trim()
-                       ?? throw new InternalServerErrorException(new[] { "Jwt:Issuer não está configurado." }, "Erro de Configuração");
+                       ?? throw new JwtException(new[] { "Jwt:Issuer não está configurado." });
 
             _publico = configuration["Jwt:Audience"]?.Trim()
-                       ?? throw new InternalServerErrorException(new[] { "Jwt:Audience não está configurado." }, "Erro de Configuração");
+                       ?? throw new JwtException(new[] { "Jwt:Audience não está configurado." });
         }
 
         public string GerarToken(int id, string nome, string email)
