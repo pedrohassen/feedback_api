@@ -1,8 +1,9 @@
-﻿using FeedbackApp.Application.Mapper;
+﻿using FeedbackApp.Application.Arguments;
 using FeedbackApp.Application.Interfaces;
+using FeedbackApp.Application.Mapper;
+using FeedbackApp.Application.Models;
 using FeedbackApp.Domain.Entities;
 using FeedbackApp.Infrastructure.Data;
-using FeedbackApp.Application.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FeedbackApp.Infrastructure.Repositories
@@ -20,22 +21,28 @@ namespace FeedbackApp.Infrastructure.Repositories
             _mapper = mapper;
         }
 
+        public async Task<FeedbackModel> CriarAsync(FeedbackArgument argument)
+        {
+            Feedback entidade = _mapper.Map<Feedback>(argument);
+
+            _context.Feedbacks.Add(entidade);
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<FeedbackModel>(entidade);
+        }
+
+        public async Task<IEnumerable<FeedbackModel>> ListarTodosAsync()
+        {
+            IEnumerable<Feedback> entidades = await _context.Feedbacks.ToListAsync();
+
+            return _mapper.Map<IEnumerable<FeedbackModel>>(entidades);
+        }
+
         public async Task<FeedbackModel?> ObterPorIdAsync(int id)
         {
             Feedback? entidade = await _context.Feedbacks.FindAsync(id);
-            if (entidade == null)
-                return null;
 
             return _mapper.Map<FeedbackModel?>(entidade);
-        }
-
-        public async Task<IEnumerable<FeedbackModel>> ListarFeedbacksAsync()
-        {
-            IEnumerable<Feedback> entidades = await _context.Feedbacks.ToListAsync();
-            if (entidades == null || !entidades.Any())
-                return Enumerable.Empty<FeedbackModel>();
-
-            return _mapper.Map<IEnumerable<FeedbackModel>>(entidades);
         }
     }
 }
