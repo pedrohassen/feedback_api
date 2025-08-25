@@ -8,9 +8,15 @@ namespace FeedbackApp.Application.Mapper.Profiles
     {
         public ModelToResponseProfile()
         {
+            // UsuarioModel -> UsuarioResponse
             CreateMap<UsuarioModel, UsuarioResponse>()
                 .ForMember(dest => dest.Senha, opt => opt.Ignore())
                 .ForMember(dest => dest.Token, opt => opt.Ignore());
+
+            // FeedbackModel -> FeedbackResponse
+            CreateMap<FeedbackModel, FeedbackResponse>()
+                .ForMember(dest => dest.Destinatario, opt => opt.Ignore())
+                .ForMember(dest => dest.Remetente, opt => opt.Ignore());
         }
     }
 }

@@ -28,6 +28,10 @@ namespace FeedbackApp.Application.Mapper
             {
                 Console.WriteLine("Erro na configuração do AutoMapper:");
                 Console.WriteLine(ex.Message);
+
+                if (ex.InnerException != null)
+                    Console.WriteLine("Inner exception: " + ex.InnerException.Message);
+
                 throw;
             }
         }
