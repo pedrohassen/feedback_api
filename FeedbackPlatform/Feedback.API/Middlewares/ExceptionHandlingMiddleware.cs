@@ -38,7 +38,7 @@ namespace FeedbackApp.API.Middlewares
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)exception.StatusCode;
 
-            var response = new
+            object response = new
             {
                 titulo = exception.Titulo,
                 mensagens = exception.Mensagens
@@ -55,7 +55,7 @@ namespace FeedbackApp.API.Middlewares
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            var response = new
+            object response = new
             {
                 titulo = "Erro Interno",
                 mensagens = new[] { "Ocorreu um erro inesperado. Tente novamente mais tarde." }
