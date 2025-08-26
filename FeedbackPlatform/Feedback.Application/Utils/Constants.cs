@@ -25,6 +25,11 @@
             public const string AcessoNegado = "Acesso Negado";
             public const string RecursoInexistente = "Recurso Inexistente";
             public const string RequisicaoInvalida = "Requisição Inválida.";
+            public const string ErroRemetenteDestinatarioIgual = "O remetente não pode ser o mesmo que o destinatário";
+            public const string FeedbackTextoLimite = "O texto do feedback não pode exceder 500 caracteres.";
+            public const string ApenasRemetenteAtualizaFeedback = "Apenas o remetente pode atualizar o feedback.";
+            public const string FeedbackNaoEncontrado = "Feedback não encontrado.";
+            public const string FeedbacksNaoEncontrados = "Feedbacks não encontrados.";
         }
     }
 }
