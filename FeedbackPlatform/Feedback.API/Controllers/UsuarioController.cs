@@ -34,9 +34,9 @@ namespace FeedbackApp.API.Controllers
             Summary = "Realizar login de usuários.",
             Description = "Autenticação de usuários na aplicação.",
             OperationId = "LoginUsuario")]
-        public async Task<IActionResult> LoginUsuarioAsync([FromBody] UsuarioRequest? request)
+        public async Task<IActionResult> LoginUsuarioAsync([FromBody] UsuarioRequest request)
         {
-            UsuarioResponse response = await _usuarioService.LoginAsync(request!);
+            UsuarioResponse response = await _usuarioService.LoginAsync(request);
             return Ok(response);
         }
 

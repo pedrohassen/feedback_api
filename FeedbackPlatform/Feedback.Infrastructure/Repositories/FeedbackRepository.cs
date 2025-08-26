@@ -31,6 +31,18 @@ namespace FeedbackApp.Infrastructure.Repositories
             return _mapper.Map<FeedbackModel>(entidade);
         }
 
+        public async Task<FeedbackModel?> AtualizarAsync(FeedbackArgument argument)
+        {
+            Feedback? entidadeExistente = await _context.Feedbacks.FindAsync(argument.Id);
+
+            _mapper.Map(argument, entidadeExistente);
+            entidadeExistente!.DataAtualizacao = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<FeedbackModel>(entidadeExistente!);
+        }
+
         public async Task<IEnumerable<FeedbackModel>> ListarTodosAsync()
         {
             IEnumerable<Feedback> entidades = await _context.Feedbacks.ToListAsync();

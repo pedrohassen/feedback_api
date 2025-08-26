@@ -17,7 +17,7 @@ namespace FeedbackApp.API.Controllers
             _feedbackService = feedbackService;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [SwaggerOperation(
             Summary = "Criar feedback.",
@@ -27,6 +27,17 @@ namespace FeedbackApp.API.Controllers
         {
             FeedbackResponse novoFeedback = await _feedbackService.CriarAsync(request);
             return Ok(novoFeedback);
+        }
+
+        [HttpPut]
+        [SwaggerOperation(
+            Summary = "Atualizar feedback.",
+            Description = "Atualiza o texto de um feedback existente.",
+            OperationId = "AtualizarFeedback")]
+        public async Task<IActionResult> AtualizarAsync([FromBody] FeedbackRequest request)
+        {
+            FeedbackResponse feedbackAtualizado = await _feedbackService.AtualizarAsync(request);
+            return Ok(feedbackAtualizado);
         }
 
         [HttpGet("listar")]
