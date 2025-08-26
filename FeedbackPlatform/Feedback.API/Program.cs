@@ -47,8 +47,9 @@ namespace FeedbackApp.API
             });
 
             builder.Services
-                .AddApplication()
-                .AddInfrastructure(builder.Configuration)
+                .AddApplicationLayer()
+                .AddHttpContextAccessor()
+                .AddInfrastructureLayer(builder.Configuration)
                 .AddJwtAuthentication(builder.Configuration)
                 .AddSwagger();
         }
