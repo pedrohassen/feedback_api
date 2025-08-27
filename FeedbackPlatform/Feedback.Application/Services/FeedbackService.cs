@@ -44,7 +44,7 @@ namespace FeedbackApp.Application.Services
             if (request.Texto.Length > 500)
                 throw new FeedbackErrosException(FeedbackTextoLimite, HttpStatusCode.BadRequest, ErroValidacao);
 
-            UsuarioTokenInfo usuarioLogado = _jwtTokenService.ObterUsuarioLogado();
+            UsuarioTokenInfo usuarioLogado = await _jwtTokenService.ObterUsuarioLogado();
             UsuarioResponse? destinatario = await _usuarioService.ObterPorIdAsync(request.DestinatarioId);
 
             FeedbackArgument argument = _mapper.Map<FeedbackArgument>(request);
@@ -69,7 +69,7 @@ namespace FeedbackApp.Application.Services
                 throw new FeedbackErrosException(FeedbackTextoLimite, HttpStatusCode.BadRequest, ErroValidacao);
 
             FeedbackResponse? feedbackExistente = await ObterPorIdAsync(request.Id);
-            UsuarioTokenInfo usuarioLogado = _jwtTokenService.ObterUsuarioLogado();
+            UsuarioTokenInfo usuarioLogado = await _jwtTokenService.ObterUsuarioLogado();
 
             if (feedbackExistente!.RemetenteId != usuarioLogado.Id)
                 throw new FeedbackErrosException(ApenasRemetenteAtualizaFeedback, HttpStatusCode.Forbidden, AcessoNegado);
