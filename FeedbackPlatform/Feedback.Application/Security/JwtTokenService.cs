@@ -1,9 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
 using FeedbackApp.Application.Interfaces;
-using FeedbackApp.Application.Responses;
 using FeedbackApp.CrossCutting.Exceptions;
 using FeedbackApp.Domain.Security;
 using Microsoft.AspNetCore.Http;
@@ -18,9 +16,8 @@ namespace FeedbackApp.Application.Security
         private readonly string _emissor;
         private readonly string _publico;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUsuarioService _usuarioService;
 
-        public JwtTokenService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IUsuarioService usuarioService)
+        public JwtTokenService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _chave = configuration["Jwt:SecretKey"]?.Trim()
                      ?? throw new JwtException(new[] { "Jwt:SecretKey não está configurado." });
@@ -32,7 +29,7 @@ namespace FeedbackApp.Application.Security
                        ?? throw new JwtException(new[] { "Jwt:Audience não está configurado." });
             _httpContextAccessor = httpContextAccessor
                 ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-            _usuarioService = usuarioService;        }
+        }
 
         public string GerarToken(int id, string nome, string email)
         {
@@ -57,16 +54,13 @@ namespace FeedbackApp.Application.Security
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<UsuarioTokenInfo> ObterUsuarioLogado()
+        public UsuarioTokenInfo ObterUsuarioLogado()
         {
             string? token = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"];
             if (string.IsNullOrWhiteSpace(token))
                 throw new JwtException(new[] { "Token não encontrado." });
 
             UsuarioTokenInfo usuarioToken = ObterUsuarioDoToken(token.Replace("Bearer ", "").Trim());
-
-            UsuarioResponse? usuario = await _usuarioService.ObterPorIdAsync(usuarioToken.Id)
-                ?? throw new UsuariosErrosException("Usuário logado não existe mais.", HttpStatusCode.Unauthorized, "Acesso negado");
             
             return usuarioToken;
         }

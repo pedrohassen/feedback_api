@@ -44,7 +44,10 @@ namespace FeedbackApp.Application.Services
             if (request.Texto.Length > 500)
                 throw new FeedbackErrosException(FeedbackTextoLimite, HttpStatusCode.BadRequest, ErroValidacao);
 
-            UsuarioTokenInfo usuarioLogado = await _jwtTokenService.ObterUsuarioLogado();
+            UsuarioTokenInfo usuarioLogado = _jwtTokenService.ObterUsuarioLogado();
+            UsuarioResponse? usuario = await _usuarioService.ObterPorIdAsync(usuarioLogado.Id)
+                ?? throw new UsuariosErrosException("Usuário logado não existe mais.", HttpStatusCode.Unauthorized, "Acesso negado");
+
             UsuarioResponse? destinatario = await _usuarioService.ObterPorIdAsync(request.DestinatarioId);
 
             FeedbackArgument argument = _mapper.Map<FeedbackArgument>(request);
@@ -69,7 +72,9 @@ namespace FeedbackApp.Application.Services
                 throw new FeedbackErrosException(FeedbackTextoLimite, HttpStatusCode.BadRequest, ErroValidacao);
 
             FeedbackResponse? feedbackExistente = await ObterPorIdAsync(request.Id);
-            UsuarioTokenInfo usuarioLogado = await _jwtTokenService.ObterUsuarioLogado();
+            UsuarioTokenInfo usuarioLogado = _jwtTokenService.ObterUsuarioLogado();
+            UsuarioResponse? usuario = await _usuarioService.ObterPorIdAsync(usuarioLogado.Id)
+                ?? throw new UsuariosErrosException("Usuário logado não existe mais.", HttpStatusCode.Unauthorized, "Acesso negado");
 
             if (feedbackExistente!.RemetenteId != usuarioLogado.Id)
                 throw new FeedbackErrosException(ApenasRemetenteAtualizaFeedback, HttpStatusCode.Forbidden, AcessoNegado);
