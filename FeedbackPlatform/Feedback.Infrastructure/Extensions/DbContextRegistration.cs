@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FeedbackApp.Infrastructure.Extensions
 {
-    public static class DbContextServiceCollectionExtensions
+    public static class DbContextRegistration
     {
         public static IServiceCollection AddAppDbContext(
             this IServiceCollection services,

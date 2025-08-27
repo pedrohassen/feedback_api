@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FeedbackApp.Infrastructure.Extensions
 {
-    public static class ServiceCollectionExtensions
+    public static class InfrastructureLayerExtensions
     {
         public static IServiceCollection AddInfrastructureLayer(
             this IServiceCollection services,

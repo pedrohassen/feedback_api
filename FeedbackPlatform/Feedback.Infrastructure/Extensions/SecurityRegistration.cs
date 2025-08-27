@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FeedbackApp.Infrastructure.Extensions
 {
-    public static class SecurityServiceCollectionExtensions
+    public static class SecurityRegistration
     {
         public static IServiceCollection AddSecurity(this IServiceCollection services)
         {

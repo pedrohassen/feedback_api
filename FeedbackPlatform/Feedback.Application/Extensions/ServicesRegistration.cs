@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FeedbackApp.Application.Extensions
 {
-    public static class ApplicationServicesRegistration
+    public static class ServicesRegistration
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
