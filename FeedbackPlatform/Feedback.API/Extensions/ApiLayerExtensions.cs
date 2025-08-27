@@ -14,8 +14,8 @@
 
         public static WebApplication UseApiLayer(this WebApplication app)
         {
-            app
-                .UseSwaggerUIIfDev();
+            app.UseExceptionHandling();
+            app.UseSwaggerUIIfDev();
 
             return app;
         }

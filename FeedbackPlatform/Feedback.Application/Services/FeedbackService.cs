@@ -79,7 +79,6 @@ namespace FeedbackApp.Application.Services
             if (feedbackExistente!.RemetenteId != usuarioLogado.Id)
                 throw new FeedbackErrosException(ApenasRemetenteAtualizaFeedback, HttpStatusCode.Forbidden, AcessoNegado);
 
-
             FeedbackArgument argument = _mapper.Map<FeedbackArgument>(request);
 
             argument.RemetenteId = feedbackExistente.RemetenteId;
