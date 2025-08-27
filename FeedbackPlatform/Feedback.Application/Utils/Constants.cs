@@ -30,6 +30,7 @@
             public const string ApenasRemetenteAtualizaFeedback = "Apenas o remetente pode atualizar o feedback.";
             public const string FeedbackNaoEncontrado = "Feedback não encontrado.";
             public const string FeedbacksNaoEncontrados = "Feedbacks não encontrados.";
+            public const string DestinatarioNaoInformado = "Destinatário não informado.";
         }
     }
 }
