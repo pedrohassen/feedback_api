@@ -8,7 +8,7 @@ namespace FeedbackApp.Application.Interfaces
         Task<UsuarioResponse> RegistrarAsync(UsuarioRequest request);
         Task<UsuarioResponse> LoginAsync(UsuarioRequest request);
         Task<IEnumerable<UsuarioResponse>> ListarUsuariosAsync();
-        Task<UsuarioResponse?> ObterPorIdAsync(int id);
+        Task<UsuarioResponse?> ObterPorIdAsync(int? id);
         Task<UsuarioResponse> AtualizarAsync(UsuarioRequest request);
         Task<UsuarioResponse> RemoverAsync(int id);
     }

@@ -33,12 +33,12 @@ namespace FeedbackApp.Infrastructure.Data
                 entity.HasOne(f => f.Destinatario)
                     .WithMany(u => u.FeedbacksRecebidos)
                     .HasForeignKey(f => f.DestinatarioId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.SetNull);
 
                 entity.HasOne(f => f.Remetente)
                     .WithMany(u => u.FeedbacksEnviados)
                     .HasForeignKey(f => f.RemetenteId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.SetNull);
             });
         }
     }

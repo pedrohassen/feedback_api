@@ -7,7 +7,6 @@ using FeedbackApp.Application.Requests;
 using FeedbackApp.Application.Responses;
 using FeedbackApp.CrossCutting.Exceptions;
 using FeedbackApp.Domain.Security;
-using static FeedbackApp.Application.Utils.Constants;
 using static FeedbackApp.Application.Utils.Constants.MensagemErro;
 
 namespace FeedbackApp.Application.Services
@@ -36,6 +35,9 @@ namespace FeedbackApp.Application.Services
             if (request == null)
                 throw new FeedbackErrosException(RequestNula, HttpStatusCode.BadRequest, RequisicaoInvalida);
 
+            if (!request.DestinatarioId.HasValue)
+                throw new FeedbackErrosException(DestinatarioNaoInformado, HttpStatusCode.BadRequest, ErroValidacao);
+
             if (request.RemetenteId == request.DestinatarioId)
                 throw new FeedbackErrosException(ErroRemetenteDestinatarioIgual, HttpStatusCode.BadRequest, ErroValidacao);
 
@@ -48,7 +50,7 @@ namespace FeedbackApp.Application.Services
             FeedbackArgument argument = _mapper.Map<FeedbackArgument>(request);
 
             argument.RemetenteId = usuarioLogado.Id;
-            argument.DestinatarioId = destinatario!.Id;
+            argument.DestinatarioId = destinatario?.Id;
 
             FeedbackModel feedbackAdicionado = await _feedbackRepository.CriarAsync(argument);
 

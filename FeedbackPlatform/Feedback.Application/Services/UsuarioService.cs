@@ -77,12 +77,17 @@ namespace FeedbackApp.Application.Services
             return _mapper.Map<IEnumerable<UsuarioResponse>>(usuarios);
         }
 
-        public async Task<UsuarioResponse?> ObterPorIdAsync(int id)
+        public async Task<UsuarioResponse?> ObterPorIdAsync(int? id)
         {
-            ValidacoesUsuario.ValidarIdUsuario(id);
+            if (!id.HasValue)
+                return null;
 
-            UsuarioModel? usuario = await _usuarioRepository.ObterPorIdAsync(id)
-                ?? throw new UsuariosErrosException(UsuarioNaoEncontrado, HttpStatusCode.NotFound, RecursoInexistente);
+            ValidacoesUsuario.ValidarIdUsuario(id.Value);
+
+            UsuarioModel? usuario = await _usuarioRepository.ObterPorIdAsync(id.Value);
+
+            if (usuario == null)
+                return null;
 
             UsuarioResponse response = _mapper.Map<UsuarioResponse>(usuario);
             return response;
