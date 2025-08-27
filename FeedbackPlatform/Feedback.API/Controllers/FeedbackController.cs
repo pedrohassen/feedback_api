@@ -7,6 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace FeedbackApp.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class FeedbackController : ControllerBase
@@ -17,7 +18,6 @@ namespace FeedbackApp.API.Controllers
             _feedbackService = feedbackService;
         }
 
-        [Authorize]
         [HttpPost]
         [SwaggerOperation(
             Summary = "Criar feedback.",

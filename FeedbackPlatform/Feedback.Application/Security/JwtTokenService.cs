@@ -62,7 +62,7 @@ namespace FeedbackApp.Application.Security
             return ObterUsuarioDoToken(token.Replace("Bearer ", "").Trim());
         }
 
-        public static UsuarioTokenInfo ObterUsuarioDoToken(string token)
+        private static UsuarioTokenInfo ObterUsuarioDoToken(string token)
         {
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
 
