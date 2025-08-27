@@ -36,7 +36,6 @@ namespace FeedbackApp.Infrastructure.Repositories
             Feedback? entidadeExistente = await _context.Feedbacks.FindAsync(argument.Id);
 
             _mapper.Map(argument, entidadeExistente);
-            entidadeExistente!.DataAtualizacao = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 

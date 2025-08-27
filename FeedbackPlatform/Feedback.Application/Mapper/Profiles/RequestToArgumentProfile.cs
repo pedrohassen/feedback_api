@@ -17,8 +17,7 @@ namespace FeedbackApp.Application.Mapper.Profiles
                 .ForMember(dest => dest.Remetente, opt => opt.Ignore())
                 .ForMember(dest => dest.RemetenteId, opt => opt.Ignore())
                 .ForMember(dest => dest.DestinatarioId, opt => opt.Ignore())
-                .ForMember(dest => dest.DataCriacao, opt => opt.Ignore())
-                .ForMember(dest => dest.DataAtualizacao, opt => opt.Ignore());
+                .ForMember(dest => dest.DataCriacao, opt => opt.Ignore());
         }
     }
 }

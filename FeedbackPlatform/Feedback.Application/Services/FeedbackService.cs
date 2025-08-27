@@ -74,10 +74,12 @@ namespace FeedbackApp.Application.Services
             if (feedbackExistente!.RemetenteId != usuarioLogado.Id)
                 throw new FeedbackErrosException(ApenasRemetenteAtualizaFeedback, HttpStatusCode.Forbidden, AcessoNegado);
 
+
             FeedbackArgument argument = _mapper.Map<FeedbackArgument>(request);
 
             argument.RemetenteId = feedbackExistente.RemetenteId;
             argument.DestinatarioId = feedbackExistente.DestinatarioId;
+            argument.DataAtualizacao = DateTime.UtcNow;
             
             FeedbackModel? feedbackAtualizado = await _feedbackRepository.AtualizarAsync(argument)
                 ?? throw new FeedbackErrosException(FeedbacksNaoEncontrados, HttpStatusCode.NotFound, RecursoInexistente);
