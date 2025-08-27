@@ -12,9 +12,7 @@ namespace FeedbackApp.Application.Mapper.Profiles
                 .ForMember(dest => dest.Senha, opt => opt.Ignore())
                 .ForMember(dest => dest.Token, opt => opt.Ignore());
 
-            CreateMap<FeedbackModel, FeedbackResponse>()
-                .ForMember(dest => dest.Destinatario, opt => opt.Ignore())
-                .ForMember(dest => dest.Remetente, opt => opt.Ignore());
+            CreateMap<FeedbackModel, FeedbackResponse>();
         }
     }
 }

@@ -7,8 +7,8 @@
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
         public DateTime? DataAtualizacao { get; set; }
         public int? DestinatarioId { get; set; }
-        public UsuarioDTO Destinatario { get; set; } = null!;
+        //public UsuarioDTO Destinatario { get; set; } = null!;
         public int? RemetenteId { get; set; }
-        public UsuarioDTO Remetente { get; set; } = null!;
+        //public UsuarioDTO Remetente { get; set; } = null!;
     }
 }
