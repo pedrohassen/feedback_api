@@ -31,6 +31,8 @@
             public const string FeedbackNaoEncontrado = "Feedback não encontrado.";
             public const string FeedbacksNaoEncontrados = "Feedbacks não encontrados.";
             public const string DestinatarioNaoInformado = "Destinatário não informado.";
+            public const string DestinatarioNaoEncontrado = "Destinatário não encontrado.";
+            public const string UsuarioExcluido = "Não é possível enviar feedback para um usuário excluído.";
         }
     }
 }

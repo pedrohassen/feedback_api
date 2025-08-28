@@ -61,17 +61,5 @@ namespace FeedbackApp.Infrastructure.Repositories
 
             return _mapper.Map<UsuarioModel>(entidadeExistente!);
         }
-
-        public async Task<UsuarioModel?> RemoverAsync(int id)
-        {
-            Usuario? entidade = await _context.Usuarios.FindAsync(id);
-            if (entidade == null)
-                return null;
-
-            _context.Usuarios.Remove(entidade);
-            await _context.SaveChangesAsync();
-
-            return _mapper.Map<UsuarioModel>(entidade);
-        }
     }
 }

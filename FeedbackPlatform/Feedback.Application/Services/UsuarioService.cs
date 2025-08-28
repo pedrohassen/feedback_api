@@ -77,20 +77,14 @@ namespace FeedbackApp.Application.Services
             return _mapper.Map<IEnumerable<UsuarioResponse>>(usuarios);
         }
 
-        public async Task<UsuarioResponse?> ObterPorIdAsync(int? id)
+        public async Task<UsuarioResponse?> ObterPorIdAsync(int id)
         {
-            if (!id.HasValue)
-                return null;
+            ValidacoesUsuario.ValidarIdUsuario(id);
 
-            ValidacoesUsuario.ValidarIdUsuario(id.Value);
+            UsuarioModel? usuario = await _usuarioRepository.ObterPorIdAsync(id)
+                ?? throw new UsuariosErrosException(UsuarioNaoEncontrado, HttpStatusCode.NotFound, RecursoInexistente);
 
-            UsuarioModel? usuario = await _usuarioRepository.ObterPorIdAsync(id.Value);
-
-            if (usuario == null)
-                return null;
-
-            UsuarioResponse response = _mapper.Map<UsuarioResponse>(usuario);
-            return response;
+            return _mapper.Map<UsuarioResponse>(usuario);
         }
 
         public async Task<UsuarioResponse> AtualizarAsync(UsuarioRequest request)
@@ -115,10 +109,15 @@ namespace FeedbackApp.Application.Services
         {
             ValidacoesUsuario.ValidarIdUsuario(id);
 
-            UsuarioModel? usuarioRemovido = await _usuarioRepository.RemoverAsync(id)
+            UsuarioResponse? usuarioExistente = await ObterPorIdAsync(id);
+
+            usuarioExistente!.Status = false;
+
+            UsuarioArgument usuarioArgument = _mapper.Map<UsuarioArgument>(usuarioExistente);
+            UsuarioModel usuarioAtualizado = await _usuarioRepository.AtualizarAsync(usuarioArgument)
                 ?? throw new UsuariosErrosException(UsuarioNaoEncontrado, HttpStatusCode.NotFound, RecursoInexistente);
 
-            return _mapper.Map<UsuarioResponse>(usuarioRemovido);
+            return _mapper.Map<UsuarioResponse>(usuarioAtualizado);
         }
     }
 }

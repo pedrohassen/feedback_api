@@ -10,6 +10,5 @@ namespace FeedbackApp.Application.Interfaces
         Task<IEnumerable<UsuarioModel>> ListarTodosAsync();
         Task<UsuarioModel> CriarAsync(UsuarioArgument usuarioArgument);
         Task<UsuarioModel?> AtualizarAsync(UsuarioArgument usuarioArgument);
-        Task<UsuarioModel?> RemoverAsync(int id);
     }
 }

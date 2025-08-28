@@ -18,6 +18,7 @@ namespace FeedbackApp.Application.Mapper
                     cfg.AddProfile(new RequestToArgumentProfile());
                     cfg.AddProfile(new RequestToModelProfile());
                     cfg.AddProfile(new RequestToEntityProfile());
+                    cfg.AddProfile(new ResponseToArgumentProfile());
                 });
 
                 config.AssertConfigurationIsValid();

@@ -38,22 +38,24 @@ namespace FeedbackApp.Application.Services
             if (!request.DestinatarioId.HasValue)
                 throw new FeedbackErrosException(DestinatarioNaoInformado, HttpStatusCode.BadRequest, ErroValidacao);
 
-            if (request.RemetenteId == request.DestinatarioId)
+            UsuarioResponse? destinatario = await _usuarioService.ObterPorIdAsync(request.DestinatarioId.Value)
+                ?? throw new UsuariosErrosException(DestinatarioNaoEncontrado, HttpStatusCode.NotFound, RecursoInexistente);
+
+            if (!destinatario.Status)
+                throw new UsuariosErrosException(UsuarioExcluido, HttpStatusCode.Forbidden, AcessoNegado);
+
+            UsuarioTokenInfo usuarioLogado = _jwtTokenService.ObterUsuarioLogado();
+
+            if (usuarioLogado.Id == request.DestinatarioId)
                 throw new FeedbackErrosException(ErroRemetenteDestinatarioIgual, HttpStatusCode.BadRequest, ErroValidacao);
 
             if (request.Texto.Length > 500)
                 throw new FeedbackErrosException(FeedbackTextoLimite, HttpStatusCode.BadRequest, ErroValidacao);
 
-            UsuarioTokenInfo usuarioLogado = _jwtTokenService.ObterUsuarioLogado();
-            UsuarioResponse? usuario = await _usuarioService.ObterPorIdAsync(usuarioLogado.Id)
-                ?? throw new UsuariosErrosException("Usuário logado não existe mais.", HttpStatusCode.Unauthorized, "Acesso negado");
-
-            UsuarioResponse? destinatario = await _usuarioService.ObterPorIdAsync(request.DestinatarioId);
-
             FeedbackArgument argument = _mapper.Map<FeedbackArgument>(request);
 
             argument.RemetenteId = usuarioLogado.Id;
-            argument.DestinatarioId = destinatario?.Id;
+            argument.DestinatarioId = request.DestinatarioId.Value;
 
             FeedbackModel feedbackAdicionado = await _feedbackRepository.CriarAsync(argument);
 
@@ -73,8 +75,6 @@ namespace FeedbackApp.Application.Services
 
             FeedbackResponse? feedbackExistente = await ObterPorIdAsync(request.Id);
             UsuarioTokenInfo usuarioLogado = _jwtTokenService.ObterUsuarioLogado();
-            UsuarioResponse? usuario = await _usuarioService.ObterPorIdAsync(usuarioLogado.Id)
-                ?? throw new UsuariosErrosException("Usuário logado não existe mais.", HttpStatusCode.Unauthorized, "Acesso negado");
 
             if (feedbackExistente!.RemetenteId != usuarioLogado.Id)
                 throw new FeedbackErrosException(ApenasRemetenteAtualizaFeedback, HttpStatusCode.Forbidden, AcessoNegado);
