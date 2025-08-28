@@ -13,10 +13,7 @@ namespace FeedbackApp.Application.Mapper.Profiles
                 .ForMember(dest => dest.Status, opt => opt.Ignore());
 
             CreateMap<FeedbackRequest, FeedbackArgument>()
-                .ForMember(dest => dest.Id, opt => opt.Condition((src, dest, srcMember) => srcMember != 0))
-                .ForMember(dest => dest.RemetenteId, opt => opt.Ignore())
-                .ForMember(dest => dest.DestinatarioId, opt => opt.Ignore())
-                .ForMember(dest => dest.DataCriacao, opt => opt.Ignore());
+                .ReverseMap();
         }
     }
 }
