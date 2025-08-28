@@ -23,7 +23,7 @@ namespace FeedbackApp.Infrastructure.Repositories
 
         public async Task<UsuarioModel?> ObterPorIdAsync(int id)
         {
-            Usuario? entidade = await _context.Usuarios.FindAsync(id);
+            Usuario? entidade = await _context.Usuarios.Where(user => user.Status == true).FirstOrDefaultAsync(user => user.Id == id);
             return _mapper.Map<UsuarioModel?>(entidade);
         }
 

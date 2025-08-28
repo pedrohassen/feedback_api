@@ -38,11 +38,7 @@ namespace FeedbackApp.Application.Services
             if (!request.DestinatarioId.HasValue)
                 throw new FeedbackErrosException(DestinatarioNaoInformado, HttpStatusCode.BadRequest, ErroValidacao);
 
-            UsuarioResponse? destinatario = await _usuarioService.ObterPorIdAsync(request.DestinatarioId.Value)
-                ?? throw new UsuariosErrosException(DestinatarioNaoEncontrado, HttpStatusCode.NotFound, RecursoInexistente);
-
-            if (!destinatario.Status)
-                throw new UsuariosErrosException(UsuarioExcluido, HttpStatusCode.Forbidden, AcessoNegado);
+            UsuarioResponse? destinatario = await _usuarioService.ObterPorIdAsync(request.DestinatarioId.Value);
 
             UsuarioTokenInfo usuarioLogado = _jwtTokenService.ObterUsuarioLogado();
 
@@ -55,7 +51,6 @@ namespace FeedbackApp.Application.Services
             FeedbackArgument argument = _mapper.Map<FeedbackArgument>(request);
 
             argument.RemetenteId = usuarioLogado.Id;
-            argument.DestinatarioId = request.DestinatarioId.Value;
 
             FeedbackModel feedbackAdicionado = await _feedbackRepository.CriarAsync(argument);
 
@@ -108,6 +103,17 @@ namespace FeedbackApp.Application.Services
                 ?? throw new FeedbackErrosException(FeedbackNaoEncontrado, HttpStatusCode.NotFound, RecursoInexistente);
 
             return _mapper.Map<FeedbackResponse>(feedback);
+        }
+
+        public async Task<IEnumerable<FeedbackResponse?>> ObterPorUsuarioIdAsync(int id)
+        {
+            if (id <= 0)
+                throw new FeedbackErrosException(IdInvalido, HttpStatusCode.BadRequest, ErroValidacao);
+
+            IEnumerable<FeedbackModel?> feedback = await _feedbackRepository.ObterPorUsuarioIdAsync(id)
+                ?? throw new FeedbackErrosException(FeedbackNaoEncontrado, HttpStatusCode.NotFound, RecursoInexistente);
+
+            return _mapper.Map<IEnumerable<FeedbackResponse>>(feedback);
         }
     }
 }

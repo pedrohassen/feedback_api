@@ -9,5 +9,6 @@ namespace FeedbackApp.Application.Interfaces
         Task<FeedbackModel?> AtualizarAsync(FeedbackArgument argument);
         Task<IEnumerable<FeedbackModel>> ListarTodosAsync();
         Task<FeedbackModel?> ObterPorIdAsync(int id);
+        Task<IEnumerable<FeedbackModel?>> ObterPorUsuarioIdAsync(int id);
     }
 }

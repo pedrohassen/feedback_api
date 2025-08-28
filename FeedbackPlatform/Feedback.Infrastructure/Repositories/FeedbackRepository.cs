@@ -52,8 +52,14 @@ namespace FeedbackApp.Infrastructure.Repositories
         public async Task<FeedbackModel?> ObterPorIdAsync(int id)
         {
             Feedback? entidade = await _context.Feedbacks.FindAsync(id);
-
             return _mapper.Map<FeedbackModel?>(entidade);
+        }
+
+        public async Task<IEnumerable<FeedbackModel?>> ObterPorUsuarioIdAsync(int id)
+        {
+            IEnumerable<Feedback?> entidade = await _context.Feedbacks.Where(fb => fb.DestinatarioId == id).ToListAsync();
+
+            return _mapper.Map<IEnumerable<FeedbackModel?>>(entidade);
         }
     }
 }

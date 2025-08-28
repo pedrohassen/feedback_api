@@ -61,5 +61,16 @@ namespace FeedbackApp.API.Controllers
             FeedbackResponse? feedback = await _feedbackService.ObterPorIdAsync(id);
             return Ok(feedback);
         }
+
+        [HttpGet("usuario/{id}")]
+        [SwaggerOperation(
+            Summary = "Obter feedbacks por ID do usuário destinatário.",
+            Description = "Retorna uma lista de feedbacks recebidos por um usuário específico, com base no ID do usuário destinatário.",
+            OperationId = "ObterFeedbacksPorUsuarioId")]
+        public async Task<IActionResult> ObterPorUsuarioIdAsync(int id)
+        {
+            IEnumerable<FeedbackResponse?> feedbacks = await _feedbackService.ObterPorUsuarioIdAsync(id);
+            return Ok(feedbacks);
+        }
     }
 }
