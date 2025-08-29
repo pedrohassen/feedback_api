@@ -2,7 +2,7 @@
 
 namespace FeedbackApp.API.Extensions
 {
-    public static class ExceptionMiddlewareExtensions
+    public static class ExceptionMiddlewareRegistration
     {
         public static IApplicationBuilder UseExceptionHandling(this IApplicationBuilder app)
         {

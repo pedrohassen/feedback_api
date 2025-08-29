@@ -11,6 +11,17 @@ namespace FeedbackApp.Application.Mapper.Profiles
             CreateMap<UsuarioModel, UsuarioResponse>()
                 .ForMember(dest => dest.Senha, opt => opt.Ignore())
                 .ForMember(dest => dest.Token, opt => opt.Ignore());
+
+            CreateMap<FeedbackModel, FeedbackResponse>()
+                .ForMember(dest => dest.Destinatario, opt => opt.MapFrom(src => src.Destinatario))
+                .ForMember(dest => dest.Remetente, opt => opt.MapFrom(src => src.Remetente))
+                .AfterMap((src, dest) => {
+                    if (dest.Destinatario != null)
+                        dest.Destinatario.Senha = null;
+
+                    if (dest.Remetente != null)
+                        dest.Remetente.Senha = null;
+                });
         }
     }
 }

@@ -25,7 +25,7 @@ namespace FeedbackApp.API.Controllers
             OperationId = "RegistroUsuario")]
         public async Task<IActionResult> RegistrarUsuarioAsync([FromBody] UsuarioRequest request)
         {
-            UsuarioResponse response = await _usuarioService.RegistrarAsync(request);
+            UsuarioResponse response = await _usuarioService.RegistrarUsuarioAsync(request);
             return Ok(response);
         }
 
@@ -34,9 +34,9 @@ namespace FeedbackApp.API.Controllers
             Summary = "Realizar login de usuários.",
             Description = "Autenticação de usuários na aplicação.",
             OperationId = "LoginUsuario")]
-        public async Task<IActionResult> LoginUsuarioAsync([FromBody] UsuarioRequest? request)
+        public async Task<IActionResult> LoginUsuarioAsync([FromBody] UsuarioRequest request)
         {
-            UsuarioResponse response = await _usuarioService.LoginAsync(request!);
+            UsuarioResponse response = await _usuarioService.LoginUsuarioAsync(request);
             return Ok(response);
         }
 
@@ -46,9 +46,9 @@ namespace FeedbackApp.API.Controllers
             Summary = "Listar usuários.",
             Description = "Retorna uma lista de todos os usuários registrados na aplicação.",
             OperationId = "ListarUsuarios")]
-        public async Task<IActionResult> ListarUsuariosAsync()
+        public async Task<IActionResult> ObterTodosUsuariosAsync()
         {
-            IEnumerable<UsuarioResponse> usuarios = await _usuarioService.ListarUsuariosAsync();
+            IEnumerable<UsuarioResponse> usuarios = await _usuarioService.ObterTodosUsuariosAsync();
             return Ok(usuarios);
         }
 
@@ -57,9 +57,9 @@ namespace FeedbackApp.API.Controllers
             Summary = "Obter usuário por ID",
             Description = "Retorna os detalhes de um usuário específico pelo ID.",
             OperationId = "ObterUsuarioPorId")]
-        public async Task<IActionResult> ObterPorIdAsync(int id)
+        public async Task<IActionResult> ObterUsuarioPorIdAsync(int id)
         {
-            UsuarioResponse? usuario = await _usuarioService.ObterPorIdAsync(id);
+            UsuarioResponse? usuario = await _usuarioService.ObterUsuarioPorIdAsync(id);
             return Ok(usuario);
         }
 
@@ -70,7 +70,7 @@ namespace FeedbackApp.API.Controllers
             OperationId = "AtualizarUsuario")]
         public async Task<IActionResult> AtualizarUsuarioAsync([FromBody] UsuarioRequest request)
         {
-            UsuarioResponse response = await _usuarioService.AtualizarAsync(request);
+            UsuarioResponse response = await _usuarioService.AtualizarUsuarioAsync(request);
             return Ok(response);
         }
 
@@ -81,7 +81,7 @@ namespace FeedbackApp.API.Controllers
             OperationId = "RemoverUsuario")]
         public async Task<IActionResult> RemoverUsuarioAsync(int id)
         {
-            await _usuarioService.RemoverAsync(id);
+            await _usuarioService.RemoverUsuarioAsync(id);
             return NoContent();
         }
     }

@@ -1,3 +1,4 @@
+using FeedbackApp.API.DI;
 using FeedbackApp.API.Extensions;
 using FeedbackApp.Application.Extensions;
 using FeedbackApp.Infrastructure.Extensions;
@@ -46,21 +47,14 @@ namespace FeedbackApp.API
                 });
             });
 
-            builder.Services
-                .AddApplication()
-                .AddInfrastructure(builder.Configuration)
-                .AddJwtAuthentication(builder.Configuration)
-                .AddSwagger();
+            builder.Services.AddAllDependencies(builder.Configuration);
         }
 
         private static void ConfigureApp(WebApplication app)
         {
-            app.UseExceptionHandling();
+            app.UseApiLayer();
             app.UseHttpsRedirection();
             app.UseCors("PermitirSwagger");
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseSwaggerUIIfDev();
             app.MapControllers();
         }
     }

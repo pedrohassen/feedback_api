@@ -2,7 +2,7 @@
 
 namespace FeedbackApp.API.Extensions
 {
-    public static class SwaggerExtensions
+    public static class SwaggerRegistration
     {
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {

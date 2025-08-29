@@ -21,13 +21,13 @@ namespace FeedbackApp.Infrastructure.Repositories
             _mapper = mapper;
         }
 
-        public async Task<UsuarioModel?> ObterPorIdAsync(int id)
+        public async Task<UsuarioModel?> ObterUsuarioPorIdAsync(int id)
         {
-            Usuario? entidade = await _context.Usuarios.FindAsync(id);
+            Usuario? entidade = await _context.Usuarios.Where(user => user.Status == true).FirstOrDefaultAsync(user => user.Id == id);
             return _mapper.Map<UsuarioModel?>(entidade);
         }
 
-        public async Task<UsuarioModel?> ObterPorEmailAsync(string email)
+        public async Task<UsuarioModel?> ObterUsuarioPorEmailAsync(string email)
         {
             Usuario? entidade = await _context.Usuarios.FirstOrDefaultAsync(user => user.Email == email);
             if (entidade == null)
@@ -35,13 +35,13 @@ namespace FeedbackApp.Infrastructure.Repositories
             return _mapper.Map<UsuarioModel?>(entidade);
         }
 
-        public async Task<IEnumerable<UsuarioModel>> ListarTodosAsync()
+        public async Task<IEnumerable<UsuarioModel>> ObterTodosUsuariosAsync()
         {
             IEnumerable<Usuario> entidades = await _context.Usuarios.ToListAsync();
             return _mapper.Map<IEnumerable<UsuarioModel>>(entidades);
         }
 
-        public async Task<UsuarioModel> CriarAsync(UsuarioArgument argument)
+        public async Task<UsuarioModel> CriarUsuarioAsync(UsuarioArgument argument)
         {
             Usuario entidade = _mapper.Map<Usuario>(argument);
 
@@ -51,7 +51,7 @@ namespace FeedbackApp.Infrastructure.Repositories
             return _mapper.Map<UsuarioModel>(entidade);
         }
 
-        public async Task<UsuarioModel?> AtualizarAsync(UsuarioArgument argument)
+        public async Task<UsuarioModel?> AtualizarUsuarioAsync(UsuarioArgument argument)
         {
             Usuario? entidadeExistente = await _context.Usuarios.FindAsync(argument.Id);
 
@@ -60,18 +60,6 @@ namespace FeedbackApp.Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
             return _mapper.Map<UsuarioModel>(entidadeExistente!);
-        }
-
-        public async Task<UsuarioModel?> RemoverAsync(int id)
-        {
-            Usuario? entidade = await _context.Usuarios.FindAsync(id);
-            if (entidade == null)
-                return null;
-
-            _context.Usuarios.Remove(entidade);
-            await _context.SaveChangesAsync();
-
-            return _mapper.Map<UsuarioModel>(entidade);
         }
     }
 }

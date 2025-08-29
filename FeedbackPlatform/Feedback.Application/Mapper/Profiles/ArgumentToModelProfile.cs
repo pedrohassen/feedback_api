@@ -9,7 +9,12 @@ namespace FeedbackApp.Application.Mapper.Profiles
         public ArgumentToModelProfile()
         {
             CreateMap<UsuarioArgument, UsuarioModel>()
-                .ReverseMap();
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            CreateMap<FeedbackArgument, FeedbackModel>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.DataCriacao, opt => opt.Ignore())
+                .ForMember(dest => dest.DataAtualizacao, opt => opt.Ignore());
         }
     }
 }

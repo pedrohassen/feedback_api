@@ -9,6 +9,10 @@ namespace FeedbackApp.Application.Mapper.Profiles
         public RequestToArgumentProfile()
         {
             CreateMap<UsuarioRequest, UsuarioArgument>()
+                .ForMember(dest => dest.Id, opt => opt.Condition((src, dest, srcMember) => srcMember != 0))
+                .ForMember(dest => dest.Status, opt => opt.Ignore());
+
+            CreateMap<FeedbackRequest, FeedbackArgument>()
                 .ReverseMap();
         }
     }

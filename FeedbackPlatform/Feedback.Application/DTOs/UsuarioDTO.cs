@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace FeedbackApp.Application.DTOs
+﻿namespace FeedbackApp.Application.DTOs
 {
     public class UsuarioDTO
     {
@@ -8,5 +6,6 @@ namespace FeedbackApp.Application.DTOs
         public string Nome { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Senha { get; set; } = string.Empty;
+        public bool Status { get; set; } = true;
     }
 }

@@ -3,6 +3,7 @@ using System;
 using FeedbackApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FeedbackApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250827161441_OnDeleteSetNull")]
+    partial class OnDeleteSetNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,16 +33,16 @@ namespace FeedbackApp.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DataAtualizacao")
+                    b.Property<DateTime?>("DataAtualizacao")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("DataCriacao")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("DestinatarioId")
+                    b.Property<int?>("DestinatarioId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RemetenteId")
+                    b.Property<int?>("RemetenteId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Texto")
@@ -77,9 +80,6 @@ namespace FeedbackApp.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("boolean");
-
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
@@ -90,14 +90,12 @@ namespace FeedbackApp.Infrastructure.Migrations
                     b.HasOne("FeedbackApp.Domain.Entities.Usuario", "Destinatario")
                         .WithMany("FeedbacksRecebidos")
                         .HasForeignKey("DestinatarioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("FeedbackApp.Domain.Entities.Usuario", "Remetente")
                         .WithMany("FeedbacksEnviados")
                         .HasForeignKey("RemetenteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Destinatario");
 

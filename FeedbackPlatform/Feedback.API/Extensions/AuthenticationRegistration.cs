@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace FeedbackApp.API.Extensions
 {
-    public static class AuthenticationExtensions
+    public static class AuthenticationRegistration
     {
         public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
