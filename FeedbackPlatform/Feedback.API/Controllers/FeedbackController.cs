@@ -25,7 +25,7 @@ namespace FeedbackApp.API.Controllers
             OperationId = "CriarFeedback")]
         public async Task<ActionResult<FeedbackResponse>> CriarAsync([FromBody] FeedbackRequest request)
         {
-            FeedbackResponse novoFeedback = await _feedbackService.CriarAsync(request);
+            FeedbackResponse novoFeedback = await _feedbackService.CriarFeedbackAsync(request);
             return Ok(novoFeedback);
         }
 
@@ -36,7 +36,7 @@ namespace FeedbackApp.API.Controllers
             OperationId = "AtualizarFeedback")]
         public async Task<IActionResult> AtualizarAsync([FromBody] FeedbackRequest request)
         {
-            FeedbackResponse feedbackAtualizado = await _feedbackService.AtualizarAsync(request);
+            FeedbackResponse feedbackAtualizado = await _feedbackService.AtualizarFeedbackAsync(request);
             return Ok(feedbackAtualizado);
         }
 
@@ -47,7 +47,7 @@ namespace FeedbackApp.API.Controllers
             OperationId = "ListarFeedbacks")]
         public async Task<IActionResult> ListarFeedbacksAsync()
         {
-            IEnumerable<FeedbackResponse> feedbacks = await _feedbackService.ListarTodosAsync();
+            IEnumerable<FeedbackResponse> feedbacks = await _feedbackService.ObterTodosFeedbacksAsync();
             return Ok(feedbacks);
         }
 
@@ -58,7 +58,7 @@ namespace FeedbackApp.API.Controllers
             OperationId = "ObterFeedbackPorId")]
         public async Task<IActionResult> ObterPorIdAsync(int id)
         {
-            FeedbackResponse? feedback = await _feedbackService.ObterPorIdAsync(id);
+            FeedbackResponse? feedback = await _feedbackService.ObterFeedbackPorIdAsync(id);
             return Ok(feedback);
         }
 
@@ -69,7 +69,7 @@ namespace FeedbackApp.API.Controllers
             OperationId = "ObterFeedbacksPorUsuarioId")]
         public async Task<IActionResult> ObterPorUsuarioIdAsync(int id)
         {
-            IEnumerable<FeedbackResponse?> feedbacks = await _feedbackService.ObterPorUsuarioIdAsync(id);
+            IEnumerable<FeedbackResponse?> feedbacks = await _feedbackService.ObterFeedbackPorDestinatarioIdAsync(id);
             return Ok(feedbacks);
         }
     }

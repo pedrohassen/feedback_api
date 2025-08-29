@@ -7,10 +7,10 @@ namespace FeedbackApp.Application.Interfaces
 {
     public interface IFeedbackService
     {
-        Task<FeedbackResponse> CriarAsync(FeedbackRequest request);
-        Task<FeedbackResponse> AtualizarAsync(FeedbackRequest request);
-        Task<IEnumerable<FeedbackResponse>> ListarTodosAsync();
-        Task<FeedbackResponse?> ObterPorIdAsync(int id);
-        Task<IEnumerable<FeedbackResponse?>> ObterPorUsuarioIdAsync(int id);
+        Task<FeedbackResponse> CriarFeedbackAsync(FeedbackRequest request);
+        Task<FeedbackResponse> AtualizarFeedbackAsync(FeedbackRequest request);
+        Task<IEnumerable<FeedbackResponse>> ObterTodosFeedbacksAsync();
+        Task<FeedbackResponse?> ObterFeedbackPorIdAsync(int id);
+        Task<IEnumerable<FeedbackResponse?>> ObterFeedbackPorDestinatarioIdAsync(int id);
     }
 }

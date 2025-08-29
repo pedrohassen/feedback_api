@@ -5,11 +5,11 @@ namespace FeedbackApp.Application.Interfaces
 {
     public interface IUsuarioService
     {
-        Task<UsuarioResponse> RegistrarAsync(UsuarioRequest request);
-        Task<UsuarioResponse> LoginAsync(UsuarioRequest request);
-        Task<IEnumerable<UsuarioResponse>> ListarUsuariosAsync();
-        Task<UsuarioResponse?> ObterPorIdAsync(int id);
-        Task<UsuarioResponse> AtualizarAsync(UsuarioRequest request);
-        Task<UsuarioResponse> RemoverAsync(int id);
+        Task<UsuarioResponse> RegistrarUsuarioAsync(UsuarioRequest request);
+        Task<UsuarioResponse> LoginUsuarioAsync(UsuarioRequest request);
+        Task<IEnumerable<UsuarioResponse>> ObterTodosUsuariosAsync();
+        Task<UsuarioResponse?> ObterUsuarioPorIdAsync(int id);
+        Task<UsuarioResponse> AtualizarUsuarioAsync(UsuarioRequest request);
+        Task<UsuarioResponse> RemoverUsuarioAsync(int id);
     }
 }
