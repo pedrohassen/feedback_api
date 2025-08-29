@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace FeedbackApp.Application.DTOs
+﻿namespace FeedbackApp.Application.DTOs
 {
     public class UsuarioDTO
     {

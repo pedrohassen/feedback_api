@@ -35,10 +35,7 @@ namespace FeedbackApp.Application.Services
             if (request == null)
                 throw new FeedbackErrosException(RequestNula, HttpStatusCode.BadRequest, RequisicaoInvalida);
 
-            if (!request.DestinatarioId.HasValue)
-                throw new FeedbackErrosException(DestinatarioNaoInformado, HttpStatusCode.BadRequest, ErroValidacao);
-
-            UsuarioResponse? destinatario = await _usuarioService.ObterPorIdAsync(request.DestinatarioId.Value);
+            UsuarioResponse? destinatario = await _usuarioService.ObterPorIdAsync(request.DestinatarioId);
 
             UsuarioTokenInfo usuarioLogado = _jwtTokenService.ObterUsuarioLogado();
 
